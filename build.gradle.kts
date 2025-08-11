@@ -21,12 +21,13 @@ fun String.execute(currentWorkingDir: File = file("./")): String {
 
 val gitCommitCount = "git rev-list HEAD --count".execute().toInt()
 val gitCommitHash = "git rev-parse --verify --short HEAD".execute()
+val gitCommitCountAfterOss = gitCommitCount - 432
 
 val minSdkVer by extra(28)
-val targetSdkVer by extra(35)
-val buildToolsVer by extra("35.0.1")
+val targetSdkVer by extra(36)
 
-val appVerName by extra("3.3.1")
+val appVerCode = gitCommitCount + 0x6f7373
+val appVerName by extra("3.3.1-oss-${gitCommitCountAfterOss}")
 val configVerCode by extra(90)
 val serviceVerCode by extra(97)
 val minBackupVerCode by extra(65)
@@ -45,12 +46,11 @@ tasks.register("clean", Delete::class) {
 fun Project.configureBaseExtension() {
     extensions.findByType<BaseExtension>()?.run {
         compileSdkVersion(targetSdkVer)
-        buildToolsVersion = buildToolsVer
 
         defaultConfig {
             minSdk = minSdkVer
             targetSdk = targetSdkVer
-            versionCode = gitCommitCount
+            versionCode = appVerCode
             versionName = appVerName
             if (localProperties.getProperty("buildWithGitSuffix").toBoolean())
                 versionNameSuffix = ".r${gitCommitCount}.${gitCommitHash}"
