@@ -1,13 +1,11 @@
 # HMA-OSS
 
-[![Stars](https://github.com/frknkrc44/HMA-OSS?label=Stars)](https://github.com/frknkrc44)
+[![Stars](https://img.shields.io/github/stars/frknkrc44/HMA-OSS?label=Stars)](https://github.com/frknkrc44)
 [![Build](https://img.shields.io/github/actions/workflow/status/frknkrc44/HMA-OSS/main.yml?branch=master&logo=github)](https://github.com/frknkrc44/HMA-OSS/actions)
 [![Release](https://img.shields.io/github/v/release/frknkrc44/HMA-OSS?label=Release)](https://github.com/frknkrc44/HMA-OSS/releases/latest)
 [![Download](https://img.shields.io/github/downloads/frknkrc44/HMA-OSS/total)](https://github.com/frknkrc44/HMA-OSS/releases/latest)
 [![Channel](https://img.shields.io/badge/Telegram-Channel-blue.svg?logo=telegram)](https://t.me/aerathfuns)
 [![License](https://img.shields.io/github/license/frknkrc44/HMA-OSS?label=License)](https://choosealicense.com/licenses/gpl-3.0/)
-
-![banner](banner.png)
 
 - English  
 - [中文（简体）](README_zh_CN.md)
