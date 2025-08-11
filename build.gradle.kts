@@ -10,15 +10,23 @@ plugins {
 }
 
 fun String.execute(currentWorkingDir: File = file("./")): String {
-    val byteOut = java.io.ByteArrayOutputStream()
-    project.exec {
+    val out = providers.exec {
         workingDir = currentWorkingDir
         commandLine = split("\\s".toRegex())
-        standardOutput = byteOut
     }
-    return String(byteOut.toByteArray()).trim()
+    return out.standardOutput.asText.get().trim()
 }
 
+fun getUncommittedSuffix(): String {
+    val result = "git status -suno".execute()
+    if (result.isEmpty()) {
+        return ""
+    }
+
+    return "-dirty+${result.count { it == '\n' } + 1}"
+}
+
+val gitHasUncommittedSuffix = getUncommittedSuffix()
 val gitCommitCount = "git rev-list HEAD --count".execute().toInt()
 val gitCommitHash = "git rev-parse --verify --short HEAD".execute()
 val gitCommitCountAfterOss = gitCommitCount - 432
@@ -27,7 +35,7 @@ val minSdkVer by extra(28)
 val targetSdkVer by extra(36)
 
 val appVerCode = gitCommitCount + 0x6f7373
-val appVerName by extra("3.3.1-oss-${gitCommitCountAfterOss}")
+val appVerName by extra("3.3.1-oss-${gitCommitCountAfterOss}${gitHasUncommittedSuffix}")
 val configVerCode by extra(90)
 val serviceVerCode by extra(97)
 val minBackupVerCode by extra(65)
