@@ -2,11 +2,11 @@ package icu.nullptr.hidemyapplist.service
 
 import android.os.Build
 import android.util.Log
-import com.tsng.hidemyapplist.R
-import icu.nullptr.hidemyapplist.common.BuildConfig
 import icu.nullptr.hidemyapplist.common.JsonConfig
 import icu.nullptr.hidemyapplist.hmaApp
 import icu.nullptr.hidemyapplist.ui.util.makeToast
+import org.frknkrc44.hma_oss.R
+import org.frknkrc44.hma_oss.common.BuildConfig
 import java.io.File
 
 object ConfigManager {

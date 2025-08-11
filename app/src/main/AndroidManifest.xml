@@ -4,7 +4,7 @@
 
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
+        tools:ignore="PackageVisibilityPolicy,QueryAllPackagesPermission" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -29,26 +29,12 @@
             </intent-filter>
         </activity>
 
-        <activity-alias
-            android:name=".MainActivityLauncher"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:targetActivity="icu.nullptr.hidemyapplist.ui.activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-
         <provider
             android:name="icu.nullptr.hidemyapplist.service.ServiceProvider"
-            android:authorities="com.tsng.hidemyapplist.ServiceProvider"
+            android:authorities="org.frknkrc44.hma_oss.ServiceProvider"
             android:exported="true"
             tools:ignore="ExportedContentProvider" />
 
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7935522387526005~2750782344" />
         <meta-data
             android:name="xposedmodule"
             android:value="true" />

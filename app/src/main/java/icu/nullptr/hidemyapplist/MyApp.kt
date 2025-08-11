@@ -3,7 +3,6 @@ package icu.nullptr.hidemyapplist
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.tsng.hidemyapplist.R
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.service.PrefManager
 import icu.nullptr.hidemyapplist.ui.receiver.AppChangeReceiver
@@ -11,6 +10,7 @@ import icu.nullptr.hidemyapplist.ui.util.makeToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import me.zhanghai.android.appiconloader.AppIconLoader
+import org.frknkrc44.hma_oss.R
 import rikka.material.app.LocaleDelegate
 import java.util.*
 import kotlin.system.exitProcess

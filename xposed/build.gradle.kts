@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "icu.nullptr.hidemyapplist.xposed"
+    namespace = "org.frknkrc44.hma_oss.xposed"
 
     buildFeatures {
         buildConfig = false

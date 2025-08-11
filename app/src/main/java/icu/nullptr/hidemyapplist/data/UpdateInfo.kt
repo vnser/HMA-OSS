@@ -28,6 +28,7 @@ private data class UpdateData(
 }
 
 suspend fun fetchLatestUpdate(): UpdateInfo? {
+    /*
     val updateData = RxHttp.get(Constants.UPDATE_URL_BASE + "updates.json")
         .toAwait<UpdateData>()
         .tryAwait() ?: return null
@@ -39,4 +40,6 @@ suspend fun fetchLatestUpdate(): UpdateInfo? {
         .toAwaitString()
         .tryAwait() ?: return null
     return UpdateInfo(item.versionName, item.versionCode, content, item.downloadUrl)
+     */
+    return null
 }

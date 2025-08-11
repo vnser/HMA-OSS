@@ -1,27 +1,23 @@
 package icu.nullptr.hidemyapplist.ui.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialElevationScale
-import com.tsng.hidemyapplist.BuildConfig
-import com.tsng.hidemyapplist.R
-import com.tsng.hidemyapplist.databinding.FragmentHomeBinding
-import icu.nullptr.hidemyapplist.data.fetchLatestUpdate
+import org.frknkrc44.hma_oss.BuildConfig
+import org.frknkrc44.hma_oss.R
+import org.frknkrc44.hma_oss.databinding.FragmentHomeBinding
 import icu.nullptr.hidemyapplist.hmaApp
 import icu.nullptr.hidemyapplist.service.ConfigManager
-import icu.nullptr.hidemyapplist.service.PrefManager
 import icu.nullptr.hidemyapplist.service.ServiceClient
 import icu.nullptr.hidemyapplist.ui.activity.AboutActivity
 import icu.nullptr.hidemyapplist.ui.util.ThemeUtils.getColor
@@ -29,9 +25,6 @@ import icu.nullptr.hidemyapplist.ui.util.ThemeUtils.themeColor
 import icu.nullptr.hidemyapplist.ui.util.makeToast
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -109,7 +102,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     .setMessage(R.string.home_download_test_app_message)
                     .setNegativeButton(android.R.string.cancel, null)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Dr-TSNG/ApplistDetector/releases")))
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/frknkrc44/HMA-OSS")))
                     }
                     .show()
             } else startActivity(intent)
@@ -121,11 +114,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             restoreSAFLauncher.launch("application/json")
         }
 
+        /*
         lifecycleScope.launch {
             loadUpdateDialog()
         }
+         */
     }
 
+    @SuppressLint("StringFormatInvalid")
     override fun onStart() {
         super.onStart()
         val serviceVersion = ServiceClient.serviceVersion
@@ -148,7 +144,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             binding.moduleStatus.setText(R.string.home_xposed_not_activated)
         }
         if (serviceVersion != 0) {
-            if (serviceVersion < icu.nullptr.hidemyapplist.common.BuildConfig.SERVICE_VERSION) {
+            if (serviceVersion < org.frknkrc44.hma_oss.common.BuildConfig.SERVICE_VERSION) {
                 binding.serviceStatus.text = getString(R.string.home_xposed_service_old)
             } else {
                 binding.serviceStatus.text = getString(R.string.home_xposed_service_on, serviceVersion)
@@ -161,6 +157,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    /*
     private suspend fun loadUpdateDialog() {
         if (PrefManager.disableUpdate) return
         val updateInfo = fetchLatestUpdate() ?: return
@@ -192,4 +189,5 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
     }
+     */
 }

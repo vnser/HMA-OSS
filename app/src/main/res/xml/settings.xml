@@ -8,10 +8,12 @@
             android:key="language"
             android:summary="%s"
             android:title="@string/settings_language" />
+        <!--
         <Preference
             android:icon="@drawable/outline_translate_24"
             android:key="translation"
             android:title="@string/settings_translate" />
+        -->
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_theme">
@@ -63,11 +65,6 @@
             android:key="maxLogSize"
             android:summary="%s"
             android:title="@string/settings_max_log_size" />
-        <SwitchPreference
-            android:icon="@drawable/outline_hide_image_24"
-            android:key="hideIcon"
-            android:summary="@string/settings_hide_icon_summary"
-            android:title="@string/settings_hide_icon" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_service">
@@ -83,6 +80,7 @@
             android:title="@string/settings_force_clean_env" />
     </PreferenceCategory>
 
+    <!--
     <PreferenceCategory android:title="@string/settings_update">
         <SwitchPreference
             android:disableDependentsState="true"
@@ -96,4 +94,5 @@
             android:summary="@string/settings_receive_beta_update_summary"
             android:title="@string/settings_receive_beta_update" />
     </PreferenceCategory>
+    -->
 </PreferenceScreen>

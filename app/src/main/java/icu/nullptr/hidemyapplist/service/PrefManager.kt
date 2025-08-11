@@ -17,7 +17,6 @@ object PrefManager {
     private const val PREF_FOLLOW_SYSTEM_ACCENT = "follow_system_accent"
     private const val PREF_THEME_COLOR = "theme_color"
 
-    private const val PREF_HIDE_ICON = "hide_icon"
     private const val PREF_DISABLE_UPDATE = "disable_update"
     private const val PREF_RECEIVE_BETA_UPDATE = "receive_beta_update"
 
@@ -56,25 +55,6 @@ object PrefManager {
     var themeColor: String
         get() = pref.getString(PREF_THEME_COLOR, "MATERIAL_BLUE")!!
         set(value) = pref.edit().putString(PREF_THEME_COLOR, value).apply()
-
-    var hideIcon: Boolean
-        get() = pref.getBoolean(PREF_HIDE_ICON, false)
-        set(value) {
-            pref.edit().putBoolean(PREF_HIDE_ICON, value).apply()
-            val component = ComponentName(hmaApp, "com.tsng.hidemyapplist.MainActivityLauncher")
-            val status =
-                if (value) PackageManager.COMPONENT_ENABLED_STATE_DISABLED
-                else PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-            hmaApp.packageManager.setComponentEnabledSetting(component, status, PackageManager.DONT_KILL_APP)
-        }
-
-    var disableUpdate: Boolean
-        get() = pref.getBoolean(PREF_DISABLE_UPDATE, false)
-        set(value) = pref.edit().putBoolean(PREF_DISABLE_UPDATE, value).apply()
-
-    var receiveBetaUpdate: Boolean
-        get() = pref.getBoolean(PREF_RECEIVE_BETA_UPDATE, false)
-        set(value) = pref.edit().putBoolean(PREF_RECEIVE_BETA_UPDATE, value).apply()
 
     var appFilter_showSystem: Boolean
         get() = pref.getBoolean(PREF_APP_FILTER_SHOW_SYSTEM, false)

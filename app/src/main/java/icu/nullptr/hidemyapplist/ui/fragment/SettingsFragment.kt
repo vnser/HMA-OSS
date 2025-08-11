@@ -15,8 +15,8 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.tsng.hidemyapplist.R
-import com.tsng.hidemyapplist.databinding.FragmentSettingsBinding
+import org.frknkrc44.hma_oss.R
+import org.frknkrc44.hma_oss.databinding.FragmentSettingsBinding
 import icu.nullptr.hidemyapplist.common.CommonUtils
 import icu.nullptr.hidemyapplist.common.Constants
 import icu.nullptr.hidemyapplist.hmaApp
@@ -61,12 +61,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 "followSystemAccent" -> PrefManager.followSystemAccent
                 "blackDarkTheme" -> PrefManager.blackDarkTheme
                 "detailLog" -> ConfigManager.detailLog
-                "hideIcon" -> PrefManager.hideIcon
                 "appDataIsolation" -> CommonUtils.isAppDataIsolationEnabled
                 "voldAppDataIsolation" -> CommonUtils.isVoldAppDataIsolationEnabled
                 "forceMountData" -> ConfigManager.forceMountData
-                "disableUpdate" -> PrefManager.disableUpdate
-                "receiveBetaUpdate" -> PrefManager.receiveBetaUpdate
                 else -> throw IllegalArgumentException("Invalid key: $key")
             }
         }
@@ -87,11 +84,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 "blackDarkTheme" -> PrefManager.blackDarkTheme = value
                 "detailLog" -> ConfigManager.detailLog = value
                 "forceMountData" -> ConfigManager.forceMountData = value
-                "hideIcon" -> PrefManager.hideIcon = value
                 "appDataIsolation" -> Unit
                 "voldAppDataIsolation" -> Unit
-                "disableUpdate" -> PrefManager.disableUpdate = value
-                "receiveBetaUpdate" -> PrefManager.receiveBetaUpdate = value
                 else -> throw IllegalArgumentException("Invalid key: $key")
             }
         }

@@ -14,7 +14,7 @@ plugins {
 }
 
 android {
-    namespace = "com.tsng.hidemyapplist"
+    namespace = "org.frknkrc44.hma_oss"
 
     buildFeatures {
         buildConfig = true
@@ -78,22 +78,6 @@ materialThemeBuilder {
     // Add Material Design 3 color tokens (such as palettePrimary100) in generated theme
     // rikka.material >= 2.0.0 provides such attributes
     generatePalette = true
-}
-
-fun afterEval() = android.applicationVariants.forEach { variant ->
-    val variantCapped = variant.name.replaceFirstChar { it.titlecase(Locale.ROOT) }
-    val variantLowered = variant.name.lowercase(Locale.ROOT)
-
-    tasks.register<Sync>("build$variantCapped") {
-        dependsOn("assemble$variantCapped")
-        from(layout.buildDirectory.dir("outputs/apk/$variantLowered"))
-        into(layout.buildDirectory.dir("apk/$variantLowered"))
-        rename(".*.apk", "HMA-V${variant.versionName}-${variant.buildType.name}.apk")
-    }
-}
-
-afterEvaluate {
-    afterEval()
 }
 
 dependencies {

@@ -5,6 +5,7 @@ import android.content.pm.IPackageManager
 import android.os.Build
 import icu.nullptr.hidemyapplist.common.*
 import icu.nullptr.hidemyapplist.xposed.hook.*
+import org.frknkrc44.hma_oss.common.BuildConfig
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
