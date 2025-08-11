@@ -132,6 +132,8 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
             frameworkHooks.add(PlatformCompatHook(this))
         }
 
+        frameworkHooks.add(ActivityHook(this))
+
         frameworkHooks.forEach(IFrameworkHook::load)
         logI(TAG, "Hooks installed")
     }

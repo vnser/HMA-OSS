@@ -1,7 +1,5 @@
-import com.android.build.api.dsl.Packaging
+import org.gradle.kotlin.dsl.register
 import java.util.*
-
-val officialBuild: Boolean by rootProject.extra
 
 plugins {
     alias(libs.plugins.agp.app)
@@ -12,10 +10,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.nav.safeargs.kotlin)
-}
-
-if (officialBuild) {
-    plugins.apply(libs.plugins.gms.get().pluginId)
 }
 
 android {
@@ -89,7 +83,7 @@ fun afterEval() = android.applicationVariants.forEach { variant ->
     val variantCapped = variant.name.replaceFirstChar { it.titlecase(Locale.ROOT) }
     val variantLowered = variant.name.lowercase(Locale.ROOT)
 
-    task<Sync>("build$variantCapped") {
+    tasks.register<Sync>("build$variantCapped") {
         dependsOn("assemble$variantCapped")
         from(layout.buildDirectory.dir("outputs/apk/$variantLowered"))
         into(layout.buildDirectory.dir("apk/$variantLowered"))
@@ -105,7 +99,6 @@ dependencies {
     implementation(projects.common)
     runtimeOnly(projects.xposed)
 
-    implementation(platform(libs.com.google.firebase.bom))
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.preference.ktx)
@@ -116,9 +109,6 @@ dependencies {
     implementation(libs.com.github.liujingxing.rxhttp)
     implementation(libs.com.github.liujingxing.rxhttp.converter.serialization)
     implementation(libs.com.github.topjohnwu.libsu.core)
-    implementation(libs.com.google.android.material)
-    implementation(libs.com.google.android.gms.play.services.ads)
-    implementation(libs.com.google.firebase.analytics.ktx)
     implementation(libs.com.squareup.okhttp3)
     implementation(libs.dev.rikka.hidden.compat)
     implementation(libs.dev.rikka.rikkax.material)
@@ -126,6 +116,8 @@ dependencies {
     implementation(libs.me.zhanghai.android.appiconloader)
     compileOnly(libs.dev.rikka.hidden.stub)
     ksp(libs.com.github.liujingxing.rxhttp.compiler)
+    implementation(libs.androidx.appcompat.resources)
+    implementation(libs.material)
 }
 
 configurations.all {
