@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import org.gradle.kotlin.dsl.register
 import java.util.*
 
@@ -118,6 +119,14 @@ dependencies {
     ksp(libs.com.github.liujingxing.rxhttp.compiler)
     implementation(libs.androidx.appcompat.resources)
     implementation(libs.material)
+}
+
+android.applicationVariants.all {
+    outputs.all {
+        (this as BaseVariantOutputImpl).apply {
+            outputFileName = "${rootProject.name.replace(" ", "_")}-v${versionName}-${buildType.name}.apk"
+        }
+    }
 }
 
 configurations.all {
