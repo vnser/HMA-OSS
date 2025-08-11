@@ -1,6 +1,7 @@
 package icu.nullptr.hidemyapplist.xposed.hook
 
 import android.content.Intent
+import android.os.Build
 import com.github.kyuubiran.ezxhelper.init.InitFields
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
@@ -21,30 +22,66 @@ class ActivityHook(private val service: HMAService) : IFrameworkHook {
 
     override fun load() {
         logI(TAG, "Load hook")
-        hook = findMethod(
-            "com.android.server.wm.ActivityStarter"
-        ) {
-            name == "executeRequest"
-        }.hookBefore { param ->
-            runCatching {
-                val request = param.args[0]
-                val caller = getObjectField(request, "callingPackage") as String?
-                val intent = getObjectField(request, "intent") as Intent?
-                val targetApp = intent?.component?.packageName
 
-                if (service.shouldHide(caller, targetApp)) {
-                    logI(TAG, "@executeRequest: insecure query from $caller, target: ${intent?.component}")
-                    param.result = getStaticIntField(
-                        findClass(
-                            "android.app.ActivityManager",
-                            InitFields.ezXClassLoader
-                        ),
-                        "START_INTENT_NOT_RESOLVED"
-                    )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            hook = findMethod(
+                "com.android.server.wm.ActivityStarter"
+            ) {
+                name == "executeRequest"
+            }.hookBefore { param ->
+                runCatching {
+                    val request = param.args[0]
+                    val caller = getObjectField(request, "callingPackage") as String?
+                    val intent = getObjectField(request, "intent") as Intent?
+                    val targetApp = intent?.component?.packageName
+
+                    if (service.shouldHide(caller, targetApp)) {
+                        logI(
+                            TAG,
+                            "@executeRequest: insecure query from $caller, target: ${intent?.component}"
+                        )
+                        param.result = getStaticIntField(
+                            findClass(
+                                "android.app.ActivityManager",
+                                InitFields.ezXClassLoader
+                            ),
+                            "START_INTENT_NOT_RESOLVED"
+                        )
+                    }
+                }.onFailure {
+                    logE(TAG, "Fatal error occurred, ignore hook\n", it)
+                    // unload()
                 }
-            }.onFailure {
-                logE(TAG, "Fatal error occurred, ignore hook\n", it)
-                // unload()
+            }
+        } else {
+            hook = findMethod(
+                "com.android.server.am.ActivityStarter"
+            ) {
+                name == "execute"
+            }.hookBefore { param ->
+                runCatching {
+                    val request = getObjectField(param.thisObject, "mRequest")
+                    val caller = getObjectField(request, "callingPackage") as String?
+                    val intent = getObjectField(request, "intent") as Intent?
+                    val targetApp = intent?.component?.packageName
+
+                    if (service.shouldHide(caller, targetApp)) {
+                        logI(
+                            TAG,
+                            "@executeRequest: insecure query from $caller, target: ${intent?.component}"
+                        )
+                        param.result = getStaticIntField(
+                            findClass(
+                                "android.app.ActivityManager",
+                                InitFields.ezXClassLoader
+                            ),
+                            "START_INTENT_NOT_RESOLVED"
+                        )
+                    }
+                }.onFailure {
+                    logE(TAG, "Fatal error occurred, ignore hook\n", it)
+                    // unload()
+                }
             }
         }
     }
