@@ -6,6 +6,8 @@ import android.os.Build
 import icu.nullptr.hidemyapplist.common.*
 import icu.nullptr.hidemyapplist.xposed.hook.*
 import java.io.File
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
 
@@ -26,6 +28,7 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
     private val loggerLock = Any()
     private val systemApps = mutableSetOf<String>()
     private val frameworkHooks = mutableSetOf<IFrameworkHook>()
+    val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
     var config = JsonConfig().apply { detailLog = true }
         private set
