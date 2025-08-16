@@ -19,6 +19,11 @@ object UserService {
 
     private val uidObserver = object : UidObserverAdapter() {
         override fun onUidActive(uid: Int) {
+            if (HMAService.instance == null) {
+                logE(TAG, "HMAService instance is not available, maybe stopped")
+                return
+            }
+
             if (uid != appUid) return
             try {
                 val provider = ActivityManagerApis.getContentProviderExternal(Constants.PROVIDER_AUTHORITY, 0, null, null)
