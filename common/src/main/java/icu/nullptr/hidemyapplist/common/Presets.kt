@@ -1,8 +1,9 @@
 package icu.nullptr.hidemyapplist.common
 
+import android.content.pm.ApplicationInfo
 import android.content.pm.IPackageManager
-import android.content.pm.PackageManager
 import icu.nullptr.hidemyapplist.common.Utils.getInstalledApplicationsCompat
+import icu.nullptr.hidemyapplist.common.Utils.getPackageInfoCompat
 import icu.nullptr.hidemyapplist.common.presets.BasePreset
 import icu.nullptr.hidemyapplist.common.presets.CustomROMPreset
 import icu.nullptr.hidemyapplist.common.presets.RootAppsPreset
@@ -31,11 +32,17 @@ class Presets private constructor() {
     fun getPresetByName(name: String) = presetList.firstOrNull { it.name == name }
 
     fun reloadPresetsIfEmpty(pms: IPackageManager) {
+        var appsList: List<ApplicationInfo>? = null
+
         presetList.forEach {
             if (it.packageNames.isEmpty()) {
                 it.onAddExactPackages()
 
-                for (appInfo in getInstalledApplicationsCompat(pms, PackageManager.GET_META_DATA.toLong(), 0)) {
+                if (appsList == null) {
+                    appsList = getInstalledApplicationsCompat(pms, 0, 0)
+                }
+
+                for (appInfo in appsList) {
                     runCatching {
                         it.onReloadPreset(appInfo)
                     }.onFailure { fail ->
@@ -46,6 +53,26 @@ class Presets private constructor() {
 
             loggerFunction?.invoke("Package list for ${it.name}: ${it.packageNames}")
         }
+    }
+
+    fun handlePackageAdded(pms: IPackageManager, packageName: String) {
+        val appInfo = getPackageInfoCompat(pms, packageName, 0, 0).applicationInfo ?: return
+
+        presetList.forEach {
+            runCatching {
+                it.onReloadPreset(appInfo)
+            }.onFailure { fail ->
+                loggerFunction?.invoke(fail.toString())
+            }
+        }
+
+        loggerFunction?.invoke("Package add event handled for $packageName!")
+    }
+
+    fun handlePackageRemoved(packageName: String) {
+        presetList.forEach { it.packageNames.remove(packageName) }
+
+        loggerFunction?.invoke("Package remove event handled for $packageName!")
     }
 
     init {

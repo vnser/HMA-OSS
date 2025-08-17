@@ -1,6 +1,4 @@
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
-import org.gradle.kotlin.dsl.register
-import java.util.*
 
 plugins {
     alias(libs.plugins.agp.app)

@@ -85,6 +85,10 @@ object ServiceClient : IHMAService, DeathRecipient {
         getServiceLegacy()?.clearLogs()
     }
 
+    override fun handlePackageEvent(eventType: String?, packageName: String?) {
+        getServiceLegacy()?.handlePackageEvent(eventType, packageName)
+    }
+
     override fun syncConfig(json: String) {
         getServiceLegacy()?.syncConfig(json)
     }

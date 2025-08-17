@@ -1,5 +1,6 @@
 package icu.nullptr.hidemyapplist.xposed
 
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.IPackageManager
 import android.os.Build
@@ -232,6 +233,15 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
             oldLogFile.delete()
             logFile.renameTo(oldLogFile)
             logFile.createNewFile()
+        }
+    }
+
+    override fun handlePackageEvent(eventType: String?, packageName: String?) {
+        if (packageName == null) return
+
+        when (eventType) {
+            Intent.ACTION_PACKAGE_ADDED -> Presets.instance.handlePackageAdded(pms, packageName)
+            Intent.ACTION_PACKAGE_REMOVED -> Presets.instance.handlePackageRemoved(packageName)
         }
     }
 }
