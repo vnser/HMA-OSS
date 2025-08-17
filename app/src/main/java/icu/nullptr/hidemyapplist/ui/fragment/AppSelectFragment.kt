@@ -10,14 +10,14 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import org.frknkrc44.hma_oss.R
-import org.frknkrc44.hma_oss.databinding.FragmentAppSelectBinding
 import icu.nullptr.hidemyapplist.service.PrefManager
 import icu.nullptr.hidemyapplist.ui.adapter.AppSelectAdapter
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
 import icu.nullptr.hidemyapplist.util.PackageHelper
 import kotlinx.coroutines.launch
+import org.frknkrc44.hma_oss.R
+import org.frknkrc44.hma_oss.databinding.FragmentAppSelectBinding
 
 abstract class AppSelectFragment : Fragment(R.layout.fragment_app_select) {
 

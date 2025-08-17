@@ -1,21 +1,29 @@
 package icu.nullptr.hidemyapplist.ui.activity
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.ColorDrawable
 import android.widget.ImageView
 import android.widget.TextView
-import com.drakeet.about.*
+import com.drakeet.about.AbsAboutActivity
+import com.drakeet.about.Card
+import com.drakeet.about.Category
+import com.drakeet.about.Contributor
+import com.drakeet.about.License
+import com.drakeet.about.Line
+import icu.nullptr.hidemyapplist.ui.util.ThemeUtils.themeColor
 import org.frknkrc44.hma_oss.BuildConfig
 import org.frknkrc44.hma_oss.R
+import androidx.core.graphics.drawable.toDrawable
 
 class AboutActivity : AbsAboutActivity() {
-
     @SuppressLint("SetTextI18n")
     override fun onCreateHeader(icon: ImageView, slogan: TextView, version: TextView) {
         icon.setImageResource(R.mipmap.ic_launcher)
         slogan.text = applicationInfo.loadLabel(packageManager)
-        version.text = "V" + BuildConfig.VERSION_NAME
+        version.text = BuildConfig.VERSION_NAME
     }
 
+    @Suppress("deprecation")
     override fun onItemsCreated(items: MutableList<Any>) {
         items.add(Category(getString(R.string.title_about_fork)))
         items.add(Card(getString(R.string.about_fork_description)))

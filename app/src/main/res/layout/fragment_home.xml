@@ -132,11 +132,11 @@
                             android:textAppearance="?textAppearanceTitleMedium" />
 
                         <icu.nullptr.hidemyapplist.ui.view.ListItemView
-                            android:id="@+id/detection_test"
+                            android:id="@+id/how_to_use"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:icon="@drawable/baseline_my_location_24"
-                            app:text="@string/home_detection_test" />
+                            app:icon="@drawable/outline_info_24"
+                            app:text="@string/about_how_to_use_title" />
 
                         <include layout="@layout/line" />
 

@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
-import org.frknkrc44.hma_oss.databinding.AppItemViewBinding
 import icu.nullptr.hidemyapplist.util.PackageHelper
+import org.frknkrc44.hma_oss.databinding.AppItemViewBinding
 
 class AppItemView @JvmOverloads constructor(
     context: Context,

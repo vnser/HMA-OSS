@@ -9,17 +9,20 @@ import androidx.fragment.app.clearFragmentResultListener
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import androidx.preference.*
+import androidx.preference.Preference
+import androidx.preference.PreferenceDataStore
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import org.frknkrc44.hma_oss.R
-import org.frknkrc44.hma_oss.databinding.FragmentSettingsBinding
 import icu.nullptr.hidemyapplist.common.JsonConfig
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
 import icu.nullptr.hidemyapplist.ui.viewmodel.AppSettingsViewModel
 import icu.nullptr.hidemyapplist.util.PackageHelper
+import org.frknkrc44.hma_oss.R
+import org.frknkrc44.hma_oss.databinding.FragmentSettingsBinding
 
 class AppSettingsFragment : Fragment(R.layout.fragment_settings) {
 

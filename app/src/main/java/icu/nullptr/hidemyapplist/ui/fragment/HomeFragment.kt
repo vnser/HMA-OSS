@@ -2,8 +2,7 @@ package icu.nullptr.hidemyapplist.ui.fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,9 +12,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialElevationScale
-import org.frknkrc44.hma_oss.BuildConfig
-import org.frknkrc44.hma_oss.R
-import org.frknkrc44.hma_oss.databinding.FragmentHomeBinding
 import icu.nullptr.hidemyapplist.hmaApp
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.service.ServiceClient
@@ -25,6 +21,9 @@ import icu.nullptr.hidemyapplist.ui.util.ThemeUtils.themeColor
 import icu.nullptr.hidemyapplist.ui.util.makeToast
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
+import org.frknkrc44.hma_oss.BuildConfig
+import org.frknkrc44.hma_oss.R
+import org.frknkrc44.hma_oss.databinding.FragmentHomeBinding
 import java.io.IOException
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -94,21 +93,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.appManage.setOnClickListener {
             navController.navigate(R.id.nav_app_manage)
         }
-        binding.detectionTest.setOnClickListener {
-            val intent = hmaApp.packageManager.getLaunchIntentForPackage("icu.nullptr.applistdetector")
-            if (intent == null) {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(R.string.home_download_test_app_title)
-                    .setMessage(R.string.home_download_test_app_message)
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .setPositiveButton(android.R.string.ok) { _, _ ->
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/frknkrc44/HMA-OSS")))
-                    }
-                    .show()
-            } else startActivity(intent)
+        binding.howToUse.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.about_how_to_use_title)
+                .setMessage(
+                    getString(R.string.about_how_to_use_description_1) +
+                            "\n\n" +
+                            getString(R.string.about_how_to_use_description_2))
+                .setNegativeButton(android.R.string.ok, null)
+                .show()
         }
         binding.backupConfig.setOnClickListener {
-            backupSAFLauncher.launch("HMA_Config.json")
+            backupSAFLauncher.launch("HMA_Config_${Calendar.getInstance().timeInMillis}.json")
         }
         binding.restoreConfig.setOnClickListener {
             restoreSAFLauncher.launch("application/json")
@@ -131,10 +127,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             else -> themeColor(android.R.attr.colorPrimary)
         }
         binding.statusCard.setCardBackgroundColor(color)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            binding.statusCard.outlineAmbientShadowColor = color
-            binding.statusCard.outlineSpotShadowColor = color
-        }
+        binding.statusCard.outlineAmbientShadowColor = color
+        binding.statusCard.outlineSpotShadowColor = color
         if (hmaApp.isHooked) {
             binding.moduleStatusIcon.setImageResource(R.drawable.outline_done_all_24)
             val versionNameSimple = BuildConfig.VERSION_NAME.substringBefore(".r")

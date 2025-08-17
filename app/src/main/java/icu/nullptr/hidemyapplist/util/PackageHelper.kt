@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.text.Collator
-import java.util.*
+import java.util.Locale
 
 object PackageHelper {
 

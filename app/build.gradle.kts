@@ -101,7 +101,6 @@ dependencies {
     implementation(libs.me.zhanghai.android.appiconloader)
     compileOnly(libs.dev.rikka.hidden.stub)
     ksp(libs.com.github.liujingxing.rxhttp.compiler)
-    implementation(libs.androidx.appcompat.resources)
     implementation(libs.material)
 }
 

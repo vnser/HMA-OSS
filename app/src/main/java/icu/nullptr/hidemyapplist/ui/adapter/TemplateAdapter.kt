@@ -1,12 +1,13 @@
 package icu.nullptr.hidemyapplist.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.frknkrc44.hma_oss.R
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.ui.view.ListItemView
+import org.frknkrc44.hma_oss.R
 import java.text.Collator
-import java.util.*
+import java.util.Locale
 
 class TemplateAdapter(
     private val onClickListener: ((ConfigManager.TemplateInfo) -> Unit)?
@@ -51,6 +52,7 @@ class TemplateAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(list[position])
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList() {
         list = ConfigManager.getTemplateList().apply {
             sortWith { o1, o2 ->

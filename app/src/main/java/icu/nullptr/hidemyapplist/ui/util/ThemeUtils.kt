@@ -8,8 +8,8 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.color.DynamicColors
-import org.frknkrc44.hma_oss.R
 import icu.nullptr.hidemyapplist.service.PrefManager
+import org.frknkrc44.hma_oss.R
 import rikka.core.util.ResourceUtils
 
 object ThemeUtils {

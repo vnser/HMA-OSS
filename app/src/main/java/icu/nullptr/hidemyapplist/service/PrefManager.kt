@@ -1,8 +1,6 @@
 package icu.nullptr.hidemyapplist.service
 
-import android.content.ComponentName
 import android.content.Context.MODE_PRIVATE
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatDelegate
 import icu.nullptr.hidemyapplist.hmaApp
 

@@ -5,11 +5,8 @@ import android.content.pm.IPackageManager
 import android.content.pm.PackageInfo
 import android.os.Binder
 import android.os.Build
-import com.android.apksig.ApkVerifier
 import com.github.kyuubiran.ezxhelper.utils.findField
-import icu.nullptr.hidemyapplist.Magic
-import java.io.File
-import java.util.*
+import java.util.Random
 
 object Utils {
 

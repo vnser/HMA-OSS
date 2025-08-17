@@ -31,7 +31,7 @@ val gitCommitCount = "git rev-list HEAD --count".execute().toInt()
 val gitCommitHash = "git rev-parse --verify --short HEAD".execute()
 val gitCommitCountAfterOss = gitCommitCount - 432
 
-val minSdkVer by extra(28)
+val minSdkVer by extra(29)
 val targetSdkVer by extra(36)
 
 val appVerCode = gitCommitCount + 0x6f7373

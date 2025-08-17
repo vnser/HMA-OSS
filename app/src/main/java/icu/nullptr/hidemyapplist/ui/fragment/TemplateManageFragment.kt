@@ -11,13 +11,13 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.transition.MaterialContainerTransform
-import org.frknkrc44.hma_oss.R
-import org.frknkrc44.hma_oss.databinding.FragmentTemplateManageBinding
 import icu.nullptr.hidemyapplist.common.JsonConfig
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.ui.adapter.TemplateAdapter
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
+import org.frknkrc44.hma_oss.R
+import org.frknkrc44.hma_oss.databinding.FragmentTemplateManageBinding
 
 class TemplateManageFragment : Fragment(R.layout.fragment_template_manage) {
 

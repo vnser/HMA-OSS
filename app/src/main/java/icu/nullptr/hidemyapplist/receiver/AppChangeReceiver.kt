@@ -1,4 +1,4 @@
-package icu.nullptr.hidemyapplist.ui.receiver
+package icu.nullptr.hidemyapplist.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

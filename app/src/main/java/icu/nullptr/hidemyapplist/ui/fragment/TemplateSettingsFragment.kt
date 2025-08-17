@@ -5,19 +5,23 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.clearFragmentResultListener
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
-import org.frknkrc44.hma_oss.R
-import org.frknkrc44.hma_oss.databinding.FragmentTemplateSettingsBinding
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
 import icu.nullptr.hidemyapplist.ui.viewmodel.TemplateSettingsViewModel
 import kotlinx.coroutines.launch
+import org.frknkrc44.hma_oss.R
+import org.frknkrc44.hma_oss.databinding.FragmentTemplateSettingsBinding
 
 class TemplateSettingsFragment : Fragment(R.layout.fragment_template_settings) {
 

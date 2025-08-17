@@ -1,11 +1,6 @@
 package icu.nullptr.hidemyapplist.data
 
-import icu.nullptr.hidemyapplist.common.Constants
-import icu.nullptr.hidemyapplist.service.PrefManager
 import kotlinx.serialization.Serializable
-import rxhttp.*
-import rxhttp.wrapper.param.RxHttp
-import java.util.*
 
 class UpdateInfo(
     val versionName: String,

@@ -15,8 +15,6 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import org.frknkrc44.hma_oss.R
-import org.frknkrc44.hma_oss.databinding.FragmentSettingsBinding
 import icu.nullptr.hidemyapplist.common.CommonUtils
 import icu.nullptr.hidemyapplist.common.Constants
 import icu.nullptr.hidemyapplist.hmaApp
@@ -27,9 +25,11 @@ import icu.nullptr.hidemyapplist.ui.util.makeToast
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
 import icu.nullptr.hidemyapplist.util.LangList
 import icu.nullptr.hidemyapplist.util.SuUtils
+import org.frknkrc44.hma_oss.R
+import org.frknkrc44.hma_oss.databinding.FragmentSettingsBinding
 import rikka.material.app.LocaleDelegate
 import rikka.preference.SimpleMenuPreference
-import java.util.*
+import java.util.Locale
 
 class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
