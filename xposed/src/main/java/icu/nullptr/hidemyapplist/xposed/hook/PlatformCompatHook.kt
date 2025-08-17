@@ -7,8 +7,8 @@ import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import de.robv.android.xposed.XC_MethodHook
 import icu.nullptr.hidemyapplist.common.CommonUtils
+import icu.nullptr.hidemyapplist.common.Utils
 import icu.nullptr.hidemyapplist.xposed.HMAService
-import icu.nullptr.hidemyapplist.xposed.Utils
 import icu.nullptr.hidemyapplist.xposed.logE
 import icu.nullptr.hidemyapplist.xposed.logI
 

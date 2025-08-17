@@ -6,8 +6,9 @@ import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import de.robv.android.xposed.XC_MethodHook
 import icu.nullptr.hidemyapplist.common.Constants
+import icu.nullptr.hidemyapplist.common.Utils
 import icu.nullptr.hidemyapplist.xposed.HMAService
-import icu.nullptr.hidemyapplist.xposed.Utils
+import icu.nullptr.hidemyapplist.xposed.Utils4Xposed
 import icu.nullptr.hidemyapplist.xposed.logD
 import icu.nullptr.hidemyapplist.xposed.logE
 import icu.nullptr.hidemyapplist.xposed.logI
@@ -35,7 +36,7 @@ class PmsHookTarget28(private val service: HMAService) : IFrameworkHook {
                     service.pms.getPackagesForUid(callingUid)
                 } ?: return@hookBefore
                 val packageSettings = param.args[0] ?: return@hookBefore
-                val targetApp = Utils.getPackageNameFromPackageSettings(packageSettings)
+                val targetApp = Utils4Xposed.getPackageNameFromPackageSettings(packageSettings)
                 for (caller in callingApps) {
                     if (service.shouldHide(caller, targetApp)) {
                         param.result = true

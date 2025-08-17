@@ -35,6 +35,10 @@
             android:key="applyTemplates"
             tools:title="@string/app_template_using" />
         <Preference
+            android:icon="@drawable/outline_assignment_24"
+            android:key="applyPresets"
+            tools:title="@string/app_preset_using" />
+        <Preference
             android:icon="@drawable/baseline_apps_24"
             android:key="extraAppList"
             tools:title="@string/app_extra_apps_invisible_count" />

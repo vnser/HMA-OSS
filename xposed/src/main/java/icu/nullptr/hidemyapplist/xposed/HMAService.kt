@@ -6,6 +6,8 @@ import android.os.Build
 import icu.nullptr.hidemyapplist.common.Constants
 import icu.nullptr.hidemyapplist.common.IHMAService
 import icu.nullptr.hidemyapplist.common.JsonConfig
+import icu.nullptr.hidemyapplist.common.Presets
+import icu.nullptr.hidemyapplist.common.Utils
 import icu.nullptr.hidemyapplist.xposed.hook.ActivityHook
 import icu.nullptr.hidemyapplist.xposed.hook.IFrameworkHook
 import icu.nullptr.hidemyapplist.xposed.hook.PlatformCompatHook
@@ -58,6 +60,8 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
         instance = this
         loadConfig()
         installHooks()
+        Presets.instance.loggerFunction = { logD(TAG, it) }
+        Presets.instance.reloadPresetsIfEmpty(pms)
         logI(TAG, "HMA service initialized")
     }
 
@@ -164,6 +168,13 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
         for (tplName in appConfig.applyTemplates) {
             val tpl = config.templates[tplName]!!
             if (query in tpl.appList) return !appConfig.useWhitelist
+        }
+
+        for (presetName in appConfig.applyPresets) {
+            val preset = Presets.instance.getPresetByName(presetName) ?: continue
+
+            if (query in preset.packageNames)
+                return !appConfig.useWhitelist
         }
 
         return appConfig.useWhitelist
