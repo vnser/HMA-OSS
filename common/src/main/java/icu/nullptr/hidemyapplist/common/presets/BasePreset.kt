@@ -7,5 +7,5 @@ abstract class BasePreset(val name: String) {
 
     abstract fun onAddExactPackages()
 
-    abstract fun onReloadPreset(appInfo: ApplicationInfo)
+    abstract fun onReloadPreset(appInfo: ApplicationInfo): Boolean
 }

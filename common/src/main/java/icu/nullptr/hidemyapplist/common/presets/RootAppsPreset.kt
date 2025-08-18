@@ -54,42 +54,51 @@ class RootAppsPreset() : BasePreset("root_apps") {
         // TODO: Add more rooted apps and other root managers
     }
 
-    override fun onReloadPreset(appInfo: ApplicationInfo) {
+    override fun onReloadPreset(appInfo: ApplicationInfo): Boolean {
         val packageName = appInfo.packageName
 
         // Iconify
         if (packageName.startsWith("com.drdisagree.iconify")) {
             packageNames.add(packageName)
+            return true
         }
 
         // MMRL
         if (packageName.startsWith("com.dergoogler.mmrl")) {
             packageNames.add(packageName)
+            return true
         }
 
         // Magisk
         if (packageName.endsWith(".magisk")) {
             packageNames.add(packageName)
+            return true
         }
 
         // APatch
         if (packageName.contains(".apatch.") || packageName.endsWith(".apatch")) {
             packageNames.add(packageName)
+            return true
         }
 
         // DataBackup
         if (packageName.contains("com.xayah.databackup")) {
             packageNames.add(packageName)
+            return true
         }
 
         // SmartPack Kernel Manager + Busybox Installer
         if (packageName.startsWith("com.smartpack.")) {
             packageNames.add(packageName)
+            return true
         }
 
         // F-Droid Privileged
         if (packageName.startsWith("org.fdroid.fdroid.privileged")) {
             packageNames.add(packageName)
+            return true
         }
+
+        return false
     }
 }

@@ -56,23 +56,39 @@ class Presets private constructor() {
     }
 
     fun handlePackageAdded(pms: IPackageManager, packageName: String) {
-        val appInfo = getPackageInfoCompat(pms, packageName, 0, 0).applicationInfo ?: return
+        var appInfo: ApplicationInfo? = null
+        var addedInAList = false
 
         presetList.forEach {
-            runCatching {
-                it.onReloadPreset(appInfo)
-            }.onFailure { fail ->
-                loggerFunction?.invoke(fail.toString())
+            if (!it.packageNames.contains(packageName)) {
+                if (appInfo == null)
+                    appInfo = getPackageInfoCompat(pms, packageName, 0, 0).applicationInfo
+
+                if (appInfo != null) {
+                    runCatching {
+                        if (it.onReloadPreset(appInfo!!))
+                            addedInAList = true
+                    }.onFailure { fail ->
+                        loggerFunction?.invoke(fail.toString())
+                    }
+                }
             }
         }
 
-        loggerFunction?.invoke("Package add event handled for $packageName!")
+        if (addedInAList)
+            loggerFunction?.invoke("Package add event handled for $packageName!")
     }
 
     fun handlePackageRemoved(packageName: String) {
-        presetList.forEach { it.packageNames.remove(packageName) }
+        var itWasInAList = false
 
-        loggerFunction?.invoke("Package remove event handled for $packageName!")
+        presetList.forEach {
+            if (it.packageNames.remove(packageName))
+                itWasInAList = true
+        }
+
+        if (itWasInAList)
+            loggerFunction?.invoke("Package remove event handled for $packageName!")
     }
 
     init {

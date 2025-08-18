@@ -1,6 +1,7 @@
 package icu.nullptr.hidemyapplist.xposed
 
 import android.content.pm.IPackageManager
+import android.os.Build
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.getFieldByDesc
@@ -31,6 +32,26 @@ class XposedEntry : IXposedHookZygoteInit, IXposedHookLoadPackage {
         } else if (lpparam.packageName == "android") {
             EzXHelperInit.initHandleLoadPackage(lpparam)
             logI(TAG, "Hook entry")
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                findMethod("com.android.server.pm.BroadcastHelper") {
+                    name == "sendPackageBroadcastAndNotify"
+                }.hookBefore { param ->
+                    HMAService.instance?.handlePackageEvent(
+                        param.args[0] as String?,
+                        param.args[1] as String?
+                    )
+                }
+            } else {
+                findMethod("com.android.server.pm.PackageManagerService") {
+                    name == "sendPackageBroadcast"
+                }.hookBefore { param ->
+                    HMAService.instance?.handlePackageEvent(
+                        param.args[0] as String?,
+                        param.args[1] as String?
+                    )
+                }
+            }
 
             var serviceManagerHook: XC_MethodHook.Unhook? = null
             serviceManagerHook = findMethod("android.os.ServiceManager") {

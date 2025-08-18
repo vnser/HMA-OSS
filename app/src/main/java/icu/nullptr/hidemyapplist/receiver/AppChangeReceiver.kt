@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
-import icu.nullptr.hidemyapplist.service.ServiceClient
 import icu.nullptr.hidemyapplist.util.PackageHelper
 
 class AppChangeReceiver : BroadcastReceiver() {
@@ -32,7 +31,7 @@ class AppChangeReceiver : BroadcastReceiver() {
         if (intent.action in actions) {
             Log.i(TAG, "Received intent: $intent")
             PackageHelper.invalidateCache()
-            ServiceClient.handlePackageEvent(intent.action, intent.data?.encodedSchemeSpecificPart)
+            // ServiceClient.handlePackageEvent(intent.action, intent.data?.encodedSchemeSpecificPart)
         }
     }
 }
