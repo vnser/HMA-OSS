@@ -1,8 +1,6 @@
 package icu.nullptr.hidemyapplist.xposed
 
-import android.content.Intent
 import android.content.pm.IPackageManager
-import android.os.Build
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.getFieldByDesc
@@ -33,39 +31,6 @@ class XposedEntry : IXposedHookZygoteInit, IXposedHookLoadPackage {
         } else if (lpparam.packageName == "android") {
             EzXHelperInit.initHandleLoadPackage(lpparam)
             logI(TAG, "Hook entry")
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                try {
-                    findMethod("com.android.server.pm.BroadcastHelper") {
-                        name == "sendPackageBroadcastAndNotify"
-                    }.hookBefore { param ->
-                        HMAService.instance?.handlePackageEvent(
-                            param.args[0] as String?,
-                            param.args[1] as String?
-                        )
-                    }
-                } catch (e: Throwable) {
-                    findMethod("com.android.internal.content.PackageMonitor") {
-                        name == "onReceive"
-                    }.hookBefore { param ->
-                        val intent = param.args[1] as Intent? ?: return@hookBefore
-
-                        HMAService.instance?.handlePackageEvent(
-                            intent.action,
-                            intent.data?.encodedSchemeSpecificPart
-                        )
-                    }
-                }
-            } else {
-                findMethod("com.android.server.pm.PackageManagerService") {
-                    name == "sendPackageBroadcast"
-                }.hookBefore { param ->
-                    HMAService.instance?.handlePackageEvent(
-                        param.args[0] as String?,
-                        param.args[1] as String?
-                    )
-                }
-            }
 
             var serviceManagerHook: XC_MethodHook.Unhook? = null
             serviceManagerHook = findMethod("android.os.ServiceManager") {

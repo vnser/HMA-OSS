@@ -1,16 +1,10 @@
 package icu.nullptr.hidemyapplist.common.presets
 
 import android.content.pm.ApplicationInfo
+import java.util.zip.ZipFile
 
 class RootAppsPreset() : BasePreset("root_apps") {
     override fun onAddExactPackages() {
-        // root managers
-        packageNames += arrayOf(
-            "me.weishu.kernelsu",
-            "com.rifsxd.ksunext",
-            "com.sukisu.ultra",
-        )
-
         // rooted apps
         packageNames += arrayOf(
             "io.github.a13e300.ksuwebui",
@@ -57,6 +51,10 @@ class RootAppsPreset() : BasePreset("root_apps") {
     override fun onReloadPreset(appInfo: ApplicationInfo): Boolean {
         val packageName = appInfo.packageName
 
+        if (packageNames.contains(packageName)) {
+            return false
+        }
+
         // Iconify
         if (packageName.startsWith("com.drdisagree.iconify")) {
             packageNames.add(packageName)
@@ -97,6 +95,33 @@ class RootAppsPreset() : BasePreset("root_apps") {
         if (packageName.startsWith("org.fdroid.fdroid.privileged")) {
             packageNames.add(packageName)
             return true
+        }
+
+        ZipFile(appInfo.sourceDir).use { zipFile ->
+            if (findRootManagerFromLibs(zipFile)) {
+                packageNames.add(appInfo.packageName)
+                return true
+            }
+        }
+
+        return false
+    }
+
+    private fun findRootManagerFromLibs(zipFile: ZipFile): Boolean {
+        val entryNames = listOf(
+            "libkernelsu.so",
+            "libapd.so",
+            "libmagisk.so",
+            "libmmrl-kernelsu.so"
+        )
+        val architectures = listOf("arm64-v8a", "armeabi-v7a")
+
+        for (entry in entryNames) {
+            for (arch in architectures) {
+                if (zipFile.getEntry("lib/$arch/$entry") != null) {
+                    return true
+                }
+            }
         }
 
         return false

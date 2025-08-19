@@ -66,8 +66,10 @@ class Presets private constructor() {
 
                 if (appInfo != null) {
                     runCatching {
-                        if (it.onReloadPreset(appInfo!!))
+                        if (it.onReloadPreset(appInfo!!)) {
+                            loggerFunction?.invoke("Package $packageName added into ${it.name}!")
                             addedInAList = true
+                        }
                     }.onFailure { fail ->
                         loggerFunction?.invoke(fail.toString())
                     }
