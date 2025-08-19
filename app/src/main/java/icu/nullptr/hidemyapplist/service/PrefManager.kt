@@ -1,8 +1,11 @@
 package icu.nullptr.hidemyapplist.service
 
+import android.content.ComponentName
 import android.content.Context.MODE_PRIVATE
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatDelegate
 import icu.nullptr.hidemyapplist.hmaApp
+import org.frknkrc44.hma_oss.BuildConfig
 
 object PrefManager {
 
@@ -15,8 +18,7 @@ object PrefManager {
     private const val PREF_FOLLOW_SYSTEM_ACCENT = "follow_system_accent"
     private const val PREF_THEME_COLOR = "theme_color"
 
-    private const val PREF_DISABLE_UPDATE = "disable_update"
-    private const val PREF_RECEIVE_BETA_UPDATE = "receive_beta_update"
+    private const val PREF_HIDE_ICON = "hide_icon"
 
     private const val PREF_APP_FILTER_SHOW_SYSTEM = "app_filter_show_system"
     private const val PREF_APP_FILTER_SORT_METHOD = "app_filter_sort_method"
@@ -53,6 +55,17 @@ object PrefManager {
     var themeColor: String
         get() = pref.getString(PREF_THEME_COLOR, "MATERIAL_BLUE")!!
         set(value) = pref.edit().putString(PREF_THEME_COLOR, value).apply()
+
+    var hideIcon: Boolean
+        get() = pref.getBoolean(PREF_HIDE_ICON, false)
+        set(value) {
+            pref.edit().putBoolean(PREF_HIDE_ICON, value).apply()
+            val component = ComponentName(hmaApp, "${BuildConfig.APPLICATION_ID}.MainActivityLauncher")
+            val status =
+                if (value) PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                else PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+            hmaApp.packageManager.setComponentEnabledSetting(component, status, PackageManager.DONT_KILL_APP)
+        }
 
     var appFilter_showSystem: Boolean
         get() = pref.getBoolean(PREF_APP_FILTER_SHOW_SYSTEM, false)

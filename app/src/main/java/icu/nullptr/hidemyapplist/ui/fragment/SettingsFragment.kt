@@ -61,6 +61,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 "followSystemAccent" -> PrefManager.followSystemAccent
                 "blackDarkTheme" -> PrefManager.blackDarkTheme
                 "detailLog" -> ConfigManager.detailLog
+                "hideIcon" -> PrefManager.hideIcon
                 "appDataIsolation" -> CommonUtils.isAppDataIsolationEnabled
                 "voldAppDataIsolation" -> CommonUtils.isVoldAppDataIsolationEnabled
                 "forceMountData" -> ConfigManager.forceMountData
@@ -84,6 +85,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 "blackDarkTheme" -> PrefManager.blackDarkTheme = value
                 "detailLog" -> ConfigManager.detailLog = value
                 "forceMountData" -> ConfigManager.forceMountData = value
+                "hideIcon" -> PrefManager.hideIcon = value
                 "appDataIsolation" -> Unit
                 "voldAppDataIsolation" -> Unit
                 else -> throw IllegalArgumentException("Invalid key: $key")
