@@ -6,13 +6,12 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.net.toUri
-import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceDataStore
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
+import androidx.preference.SwitchPreferenceCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import icu.nullptr.hidemyapplist.common.CommonUtils
@@ -21,14 +20,14 @@ import icu.nullptr.hidemyapplist.hmaApp
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.service.PrefManager
 import icu.nullptr.hidemyapplist.service.ServiceClient
+import icu.nullptr.hidemyapplist.ui.activity.AboutActivity
 import icu.nullptr.hidemyapplist.ui.util.makeToast
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
+import icu.nullptr.hidemyapplist.util.ConfigUtils.Companion.getLocale
 import icu.nullptr.hidemyapplist.util.LangList
 import icu.nullptr.hidemyapplist.util.SuUtils
 import org.frknkrc44.hma_oss.R
 import org.frknkrc44.hma_oss.databinding.FragmentSettingsBinding
-import rikka.material.app.LocaleDelegate
-import rikka.preference.SimpleMenuPreference
 import java.util.Locale
 
 class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
@@ -36,7 +35,17 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
     private val binding by viewBinding<FragmentSettingsBinding>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupToolbar(binding.toolbar, getString(R.string.title_settings))
+        with(binding.toolbar) {
+            setupToolbar(
+                toolbar = this,
+                title = getString(R.string.title_settings),
+                menuRes = R.menu.menu_about,
+                onMenuOptionSelected = {
+                    startActivity(Intent(requireContext(), AboutActivity::class.java))
+                }
+            )
+            isTitleCentered = true
+        }
 
         if (childFragmentManager.findFragmentById(R.id.settings_container) == null) {
             childFragmentManager.beginTransaction()
@@ -108,7 +117,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
             preferenceManager.preferenceDataStore = SettingsPreferenceDataStore()
             setPreferencesFromResource(R.xml.settings_data_isolation, rootKey)
 
-            findPreference<SwitchPreference>("appDataIsolation")?.let {
+            findPreference<SwitchPreferenceCompat>("appDataIsolation")?.let {
                 it.setOnPreferenceChangeListener { _, newValue ->
                     handleIsolationChange(
                         preference = it,
@@ -120,7 +129,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 }
             }
 
-            findPreference<SwitchPreference>("voldAppDataIsolation")?.let {
+            findPreference<SwitchPreferenceCompat>("voldAppDataIsolation")?.let {
                 it.setOnPreferenceChangeListener { _, newValue ->
                     val enabled = newValue as Boolean
                     if (enabled) {
@@ -153,7 +162,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
             }
         }
 
-        private fun handleIsolationChange(preference: SwitchPreference, enabled: Boolean, property: String, checker: () -> Boolean) {
+        private fun handleIsolationChange(preference: SwitchPreferenceCompat, enabled: Boolean, property: String, checker: () -> Boolean) {
             val value = if (enabled) 1 else 0
             val result = SuUtils.execPrivileged("setprop $property $value")
             if (result) makeToast(R.string.settings_need_reboot)
@@ -187,56 +196,36 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
             preferenceManager.preferenceDataStore = SettingsPreferenceDataStore()
             setPreferencesFromResource(R.xml.settings, rootKey)
 
-            @Suppress("DEPRECATION")
-            findPreference<SimpleMenuPreference>("language")?.let {
-                val userLocale = hmaApp.getLocale(PrefManager.locale)
+            findPreference<ListPreference>("language")?.let {
+                val userLocale = getLocale()
                 val entries = buildList {
                     for (lang in LangList.LOCALES) {
-                        if (lang == "SYSTEM") add(getString(rikka.core.R.string.follow_system))
+                        if (lang == "SYSTEM") add(getString(R.string.follow_system))
                         else {
                             val locale = Locale.forLanguageTag(lang)
-                            add(HtmlCompat.fromHtml(locale.getDisplayName(locale), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                            add(locale.getDisplayName(locale))
                         }
                     }
                 }
                 it.entries = entries.toTypedArray()
                 it.entryValues = LangList.LOCALES
                 if (it.value == "SYSTEM") {
-                    it.summary = getString(rikka.core.R.string.follow_system)
+                    it.summary = getString(R.string.follow_system)
                 } else {
                     val locale = Locale.forLanguageTag(it.value)
                     it.summary = if (!TextUtils.isEmpty(locale.script)) locale.getDisplayScript(userLocale) else locale.getDisplayName(userLocale)
                 }
                 it.setOnPreferenceChangeListener { _, newValue ->
-                    val locale = hmaApp.getLocale(newValue as String)
+                    val locale = getLocale()
                     val config = resources.configuration
                     config.setLocale(locale)
-                    LocaleDelegate.defaultLocale = locale
                     hmaApp.resources.updateConfiguration(config, resources.displayMetrics)
                     activity?.recreate()
                     true
                 }
             }
 
-            findPreference<Preference>("translation")?.let {
-                it.summary = getString(R.string.settings_translate_summary, getString(R.string.app_name))
-                it.setOnPreferenceClickListener {
-                    startActivity(Intent(Intent.ACTION_VIEW, Constants.TRANSLATE_URL.toUri()))
-                    true
-                }
-            }
-
-            findPreference<SwitchPreference>("followSystemAccent")?.setOnPreferenceChangeListener { _, _ ->
-                activity?.recreate()
-                true
-            }
-
-            findPreference<SimpleMenuPreference>("themeColor")?.setOnPreferenceChangeListener { _, _ ->
-                activity?.recreate()
-                true
-            }
-
-            findPreference<SimpleMenuPreference>("darkTheme")?.setOnPreferenceChangeListener { _, newValue ->
+            findPreference<ListPreference>("darkTheme")?.setOnPreferenceChangeListener { _, newValue ->
                 val newMode = (newValue as String).toInt()
                 if (PrefManager.darkTheme != newMode) {
                     AppCompatDelegate.setDefaultNightMode(newMode)
@@ -245,7 +234,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 true
             }
 
-            findPreference<SwitchPreference>("blackDarkTheme")?.setOnPreferenceChangeListener { _, _ ->
+            findPreference<SwitchPreferenceCompat>("blackDarkTheme")?.setOnPreferenceChangeListener { _, _ ->
                 activity?.recreate()
                 true
             }

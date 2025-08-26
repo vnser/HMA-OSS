@@ -1,28 +1,38 @@
-package icu.nullptr.hidemyapplist.ui.activity
+package org.frknkrc44.hma_oss.ui.activity
 
+import android.content.Context
 import android.content.res.Resources
-import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.color.DynamicColors
+import icu.nullptr.hidemyapplist.hmaApp
 import icu.nullptr.hidemyapplist.ui.util.ThemeUtils
+import icu.nullptr.hidemyapplist.util.ConfigUtils.Companion.getLocale
 import org.frknkrc44.hma_oss.R
 import org.frknkrc44.hma_oss.databinding.ActivityMainBinding
-import rikka.material.app.MaterialActivity
 
-class MainActivity : MaterialActivity() {
-
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (ThemeUtils.isSystemAccent) DynamicColors.applyToActivityIfAvailable(this)
+        DynamicColors.applyToActivityIfAvailable(this)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         setupWithNavController(binding.bottomNav, navController)
+    }
+
+    override fun onApplyThemeResource(theme: Resources.Theme, resid: Int, first: Boolean) {
+        super.onApplyThemeResource(theme, resid, first)
+        theme.applyStyle(ThemeUtils.getNightThemeStyleRes(this), true)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -30,16 +40,14 @@ class MainActivity : MaterialActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    override fun onApplyUserThemeResource(theme: Resources.Theme, isDecorView: Boolean) {
-        if (!ThemeUtils.isSystemAccent) theme.applyStyle(ThemeUtils.colorThemeStyleRes, true)
-        theme.applyStyle(ThemeUtils.getNightThemeStyleRes(this), true)
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(getLocaleAppliedContext(newBase))
     }
 
-    override fun computeUserThemeKey() = ThemeUtils.colorTheme + ThemeUtils.getNightThemeStyleRes(this)
+    fun getLocaleAppliedContext(context: Context?): Context? {
+        val config = hmaApp.resources.configuration
+        config.setLocale(getLocale())
 
-    override fun onApplyTranslucentSystemBars() {
-        super.onApplyTranslucentSystemBars()
-        window.statusBarColor = Color.TRANSPARENT
-        window.navigationBarColor = Color.TRANSPARENT
+        return context?.createConfigurationContext(config)
     }
 }
