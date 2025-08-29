@@ -34,7 +34,6 @@ class RootAppsPreset() : BasePreset("root_apps") {
         "ru.nsu.bobrofon.easysshfs",
         "x1125io.initdlight",
         "com.lonelycatgames.Xplore",
-        "com.mixplorer",
 
         // kernel managers
         "flar2.exkernelmanager",
@@ -51,6 +50,11 @@ class RootAppsPreset() : BasePreset("root_apps") {
             return false
         }
 
+        // FX File Manager
+        if (packageName.startsWith("nextapp.fx")) {
+            return true
+        }
+
         // TotalCommander and its plugins
         if (packageName.startsWith("com.ghisler.")) {
             return true
@@ -61,8 +65,8 @@ class RootAppsPreset() : BasePreset("root_apps") {
             return true
         }
 
-        // MiXplorer Silver and its plugins
-        if (packageName.startsWith("com.mixplorer.")) {
+        // MiXplorer, MiXplorer Silver and its plugins
+        if (packageName.startsWith("com.mixplorer")) {
             return true
         }
 
