@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
@@ -155,6 +156,8 @@ class AppSettingsFragment : Fragment(R.layout.fragment_settings) {
                 it.summary = PackageHelper.loadPackageInfo(pack.app).packageName
             }
             findPreference<SwitchPreferenceCompat>("hideInstallationSource")?.setOnPreferenceChangeListener { _, newValue ->
+                Toast.makeText(requireContext(),
+                    R.string.app_force_stop_warning, Toast.LENGTH_LONG).show()
                 true
             }
             findPreference<SwitchPreferenceCompat>("useWhiteList")?.setOnPreferenceChangeListener { _, newValue ->
