@@ -77,23 +77,26 @@ class AppSettingsFragment : Fragment(R.layout.fragment_settings) {
                 .commit()
         }
 
-        val insets = binding.root.rootWindowInsets
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val barInsets = insets.getInsets(WindowInsets.Type.systemBars())
-            binding.root.setPadding(
-                barInsets.left,
-                barInsets.top,
-                barInsets.right,
-                barInsets.bottom,
-            )
-        } else {
-            @Suppress("deprecation")
-            binding.root.setPadding(
-                insets.systemWindowInsetLeft,
-                insets.systemWindowInsetTop,
-                insets.systemWindowInsetRight,
-                insets.systemWindowInsetBottom,
-            )
+        binding.root.setOnApplyWindowInsetsListener { v, insets ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val barInsets = insets.getInsets(WindowInsets.Type.systemBars())
+                binding.root.setPadding(
+                    barInsets.left,
+                    barInsets.top,
+                    barInsets.right,
+                    barInsets.bottom,
+                )
+            } else {
+                @Suppress("deprecation")
+                binding.root.setPadding(
+                    insets.systemWindowInsetLeft,
+                    insets.systemWindowInsetTop,
+                    insets.systemWindowInsetRight,
+                    insets.systemWindowInsetBottom,
+                )
+            }
+
+            insets
         }
     }
 
