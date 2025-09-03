@@ -3,6 +3,7 @@ package icu.nullptr.hidemyapplist.xposed
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.IPackageManager
+import android.content.pm.PackageInfo
 import android.os.Build
 import icu.nullptr.hidemyapplist.common.AppPresets
 import icu.nullptr.hidemyapplist.common.Constants
@@ -44,6 +45,7 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
     private val systemApps = mutableSetOf<String>()
     private val frameworkHooks = mutableSetOf<IFrameworkHook>()
     val executor: ExecutorService = Executors.newSingleThreadExecutor()
+    val installedPackages = mutableListOf<PackageInfo>()
 
     var config = JsonConfig().apply { detailLog = true }
         private set
@@ -64,6 +66,7 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
         instance = this
         loadConfig()
         installHooks()
+        installedPackages += Utils.getInstalledPackagesCompat(pms, 0L, 0)
         AppPresets.instance.loggerFunction = { logD(TAG, it) }
         AppPresets.instance.reloadPresetsIfEmpty(pms)
         logI(TAG, "HMA service initialized")
@@ -249,8 +252,22 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
         if (packageName == null) return
 
         when (eventType) {
-            Intent.ACTION_PACKAGE_ADDED -> AppPresets.instance.handlePackageAdded(pms, packageName)
-            Intent.ACTION_PACKAGE_REMOVED -> AppPresets.instance.handlePackageRemoved(packageName)
+            Intent.ACTION_PACKAGE_ADDED -> {
+                AppPresets.instance.handlePackageAdded(pms, packageName)
+                installedPackages.removeIf { it.packageName == packageName }
+                installedPackages.add(Utils.getPackageInfoCompat(pms, packageName, 0L, 0))
+            }
+            Intent.ACTION_PACKAGE_REMOVED -> {
+                AppPresets.instance.handlePackageRemoved(packageName)
+                installedPackages.removeIf { it.packageName == packageName }
+            }
         }
     }
+
+    override fun getPackageNames(userId: Int) = installedPackages.map { it.packageName }.toTypedArray()
+
+    override fun getPackageInfo(
+        packageName: String?,
+        userId: Int
+    ) = installedPackages.firstOrNull { it.packageName == packageName }
 }

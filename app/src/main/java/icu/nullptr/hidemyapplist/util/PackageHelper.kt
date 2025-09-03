@@ -1,13 +1,13 @@
 package icu.nullptr.hidemyapplist.util
 
 import android.content.pm.ApplicationInfo
-import android.content.pm.IPackageManager
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import icu.nullptr.hidemyapplist.common.Constants
 import icu.nullptr.hidemyapplist.hmaApp
 import icu.nullptr.hidemyapplist.service.PrefManager
+import icu.nullptr.hidemyapplist.service.ServiceClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -49,7 +49,6 @@ object PackageHelper {
         }
     }
 
-    private lateinit var ipm: IPackageManager
     private lateinit var pm: PackageManager
 
     private val packageCache = MutableSharedFlow<Map<String, PackageCache>>(replay = 1)
@@ -69,9 +68,10 @@ object PackageHelper {
         hmaApp.globalScope.launch {
             mRefreshing.emit(true)
             val cache = withContext(Dispatchers.IO) {
-                val packages = pm.getInstalledPackages(0)
+                val packages = ServiceClient.getPackageNames(0) ?: arrayOf<String>()
                 mutableMapOf<String, PackageCache>().also {
-                    for (packageInfo in packages) {
+                    for (packageName in packages) {
+                        val packageInfo = ServiceClient.getPackageInfo(packageName, 0)!!
                         if (packageInfo.packageName in Constants.packagesShouldNotHide) continue
                         packageInfo.applicationInfo?.let { appInfo ->
                             val label = pm.getApplicationLabel(appInfo).toString()
