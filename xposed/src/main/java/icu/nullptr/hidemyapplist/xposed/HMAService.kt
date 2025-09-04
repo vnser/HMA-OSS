@@ -182,9 +182,11 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
             if (query in tpl.appList) return !appConfig.useWhitelist
         }
 
-        for (presetName in appConfig.applyPresets) {
-            val preset = AppPresets.instance.getPresetByName(presetName) ?: continue
-            if (preset.containsPackage(query)) return !appConfig.useWhitelist
+        if (!appConfig.useWhitelist) {
+            for (presetName in appConfig.applyPresets) {
+                val preset = AppPresets.instance.getPresetByName(presetName) ?: continue
+                if (preset.containsPackage(query)) return true
+            }
         }
 
         return appConfig.useWhitelist
