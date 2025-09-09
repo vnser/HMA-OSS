@@ -1,64 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_home">Home</string>
+    <string name="title_home">Inicio</string>
     <string name="title_logs">Logs</string>
-    <string name="title_settings">Settings</string>
+    <string name="title_settings">Configuración</string>
     <string name="title_template_manage">Template manage</string>
-    <string name="title_template_settings">Template settings</string>
+    <string name="title_template_settings">Configuración de la plantilla</string>
     <string name="title_app_manage">App manage</string>
-    <string name="title_app_select">Select apps</string>
-    <string name="title_app_settings">App settings</string>
-    <string name="title_about">About</string>
-    <string name="do_not_dual">Do not install HMA to secondary user</string>
-    <string name="show_crash_log">Show crash log</string>
-    <string name="config_damaged">Config file damaged. Please clean the app data</string>
-    <string name="edit_list">Edit list</string>
-    <string name="delete">Delete</string>
-    <string name="enabled">Enabled</string>
-    <string name="disabled">Disabled</string>
-    <string name="work_mode">Work mode</string>
-    <string name="blacklist">Blacklist</string>
-    <string name="whitelist">Whitelist</string>
-    <string name="application">Application</string>
-    <string name="preferences">Preferences</string>
-    <string name="refresh">Refresh</string>
-    <string name="filter">Filter</string>
-    <string name="yes">Yes</string>
+    <string name="title_app_select">Seleccionar aplicaciones</string>
+    <string name="title_app_settings">Configuración de las apps</string>
+    <string name="title_about">Acerca de</string>
+    <string name="title_about_fork">Acerca de este fork</string>
+    <string name="do_not_dual">No instalar HMA en usuario secundario</string>
+    <string name="show_crash_log">Mostrar log del error</string>
+    <string name="config_damaged">Archivo de configuración dañado. Por favor limpia los datos de la aplicación</string>
+    <string name="edit_list">Editar lista</string>
+    <string name="delete">Borrar</string>
+    <string name="enabled">Activado</string>
+    <string name="disabled">Desactivado</string>
+    <string name="work_mode">Modo de Trabajo</string>
+    <string name="blacklist">Lista negra (Blacklist)</string>
+    <string name="whitelist">Lista blanca (whitelist)</string>
+    <string name="application">Aplicación</string>
+    <string name="preferences">Preferencias</string>
+    <string name="refresh">Actualizar</string>
+    <string name="filter">Filtro</string>
+    <string name="yes">Sí</string>
     <string name="no">No</string>
-    <string name="search">Search</string>
-    <string name="system">System</string>
+    <string name="search">Buscar</string>
+    <string name="system">Sistema</string>
+    <string name="follow_system">Igual que el sistema</string>
     <!-- Home -->
-    <string name="home_xposed_activated">Module Activated [%s]</string>
-    <string name="home_xposed_not_activated">Module Not Activated</string>
-    <string name="home_xposed_service_on">System service running [%d]</string>
-    <string name="home_xposed_service_off">System service not running</string>
-    <string name="home_xposed_service_old">Module updated, need reboot</string>
-    <string name="home_xposed_filter_count">HMA-OSS has filtered total %d requests</string>
-    <string name="home_manage">Manage</string>
-    <string name="home_detection_test">Detection test</string>
-    <string name="home_download_test_app_title">Download test app</string>
+    <string name="home_xposed_activated">Módulo Activado [%s]</string>
+    <string name="home_xposed_not_activated">Módulo no activado</string>
+    <string name="home_xposed_service_on">Servicio del sistema ejecutandose [%d]</string>
+    <string name="home_xposed_service_off">El servicio del sistema no se está ejecutando</string>
+    <string name="home_xposed_service_old">Módulo actualizado, requiere reiniciar</string>
+    <string name="home_xposed_filter_count">HMA-OSS ha filtrado un total de solicitudes %d</string>
+    <string name="home_manage">Administrar</string>
+    <string name="home_detection_test">Prueba de detección</string>
+    <string name="home_download_test_app_title">Descargar aplicación de prueba</string>
     <string name="home_download_test_app_message">We have developed an individual detection test app and migrated detection test to it. Do you want to download it now?</string>
-    <string name="home_backup_and_restore">Backup &amp; Restore</string>
-    <string name="home_backup_config">Backup config</string>
-    <string name="home_restore_config">Restore config</string>
-    <string name="home_import_successful">Import successful</string>
-    <string name="home_import_failed">Import failed</string>
-    <string name="home_import_app_version_too_old">Module version lower than the backup</string>
-    <string name="home_import_backup_version_too_old">Backup version too old</string>
-    <string name="home_import_file_damaged">Backup file was damaged</string>
-    <string name="home_export_failed">Export failed</string>
-    <string name="home_exported">Backed up config</string>
-    <string name="home_new_update">New update available: %s</string>
-    <string name="home_update">Update: %s</string>
+    <string name="home_backup_and_restore">Copia de seguridad&amp; Restaurar</string>
+    <string name="home_backup_config">Configuración de la copia de seguridad</string>
+    <string name="home_restore_config">Restaurar configuración</string>
+    <string name="home_import_successful">Importación con éxito</string>
+    <string name="home_import_failed">Importación fallida</string>
+    <string name="home_import_app_version_too_old">Versión del módulo inferior a la de la copia</string>
+    <string name="home_import_backup_version_too_old">Copia de seguridad demasiado antigua</string>
+    <string name="home_import_file_damaged">Archivo de copia de seguridad dañado</string>
+    <string name="home_export_failed">Fallo al exportar</string>
+    <string name="home_exported">Configuración guardada</string>
+    <string name="home_new_update">Nueva actualización disponible: %s</string>
+    <string name="home_update">Actualización: %s</string>
     <!-- App select -->
-    <string name="list_show_system">Show system apps</string>
-    <string name="list_sorting">Sorting</string>
-    <string name="list_reverse_order">Reverse order</string>
-    <string name="list_sort_by_label">By app name</string>
-    <string name="list_sort_by_package_name">By package name</string>
-    <string name="list_sort_by_install_time">By install time</string>
-    <string name="list_sort_by_update_time">By update time</string>
-    <!-- Template manage -->
+    <string name="list_show_system">Mostrar apps del sistema</string>
+    <string name="list_sorting">Ordenar</string>
+    <string name="list_reverse_order">Invertir orden</string>
+    <string name="list_sort_by_label">Por nombre de la aplicación</string>
+    <string name="list_sort_by_package_name">Por nombre del paquete</string>
+    <string name="list_sort_by_install_time">Por fecha de instalación</string>
+    <string name="list_sort_by_update_time">Por fecha de actualización</string>
+    <!-- Manage templates -->
     <string name="template_usage_hint">Establish templates for \"restless\" apps, controlling applist they can obtain.\n\nBlacklist (recommended): the apps selected in the template will be invisible to the apps applying the template.\nWhitelist: the apps not selected in the template will be invisible to the apps applying the template.</string>
     <string name="template_new_blacklist">Create a blacklist template</string>
     <string name="template_new_whitelist">Create a whitelist template</string>
@@ -74,11 +76,31 @@
     <string name="app_enable_hide">Enable hide</string>
     <string name="app_template_config">Template config</string>
     <string name="app_choose_template">Choose template</string>
+    <string name="app_choose_preset">Choose preset</string>
     <string name="app_exclude_system_apps">Exclude system apps</string>
     <string name="app_exclude_system_apps_summary">Turn off this option only when really necessary. It is likely to cause crash with it disabled</string>
     <string name="app_template_using">Using %d templates</string>
+    <string name="app_preset_using">Using %d presets</string>
+    <string name="app_settings_preset_using">Using %d settings presets</string>
     <string name="app_extra_apps_visible_count">%d additional apps visible</string>
     <string name="app_extra_apps_invisible_count">%d additional apps invisible</string>
+    <string name="app_warning_risky_package_title">Risky package</string>
+    <string name="app_warning_risky_package_desc">This package is marked as risky and you can cause issues on hidden apps. Do you want to continue?</string>
+    <string name="app_spoof">Spoofing</string>
+    <string name="app_hide_installation_source">Spoof installation sources</string>
+    <string name="app_hide_installation_source_desc">All of user apps will be spoofed as installed over Play Store for this application</string>
+    <string name="app_hide_installation_source_system">Spoof system apps too</string>
+    <string name="app_hide_installation_source_system_desc">All of system apps will be spoofed as installed over nothing for this application</string>
+    <string name="app_exclude_target_installation_source">Exclude the target app</string>
+    <string name="app_exclude_target_installation_source_desc">You can enable it if this app is not available at Play Store</string>
+    <string name="app_force_stop_warning">Don\'t forget to force stop the target app after saving the configuration</string>
+    <!-- Preset names -->
+    <string name="preset_xposed">LSPosed/Xposed modules</string>
+    <string name="preset_root_apps">Root managers/Rooted apps</string>
+    <string name="preset_custom_rom">Custom ROM apps</string>
+    <!-- Settings preset names -->
+    <string name="settings_preset_accessibility">Accessibility</string>
+    <string name="settings_preset_dev_options">Developer options</string>
     <!-- Logs -->
     <string name="logs_save">Save logs</string>
     <string name="logs_clear">Clear logs</string>
@@ -91,6 +113,8 @@
     <string name="settings_data_isolation_unsupported">This option is only available on Android 11 and above</string>
     <string name="settings_app_data_isolation">App data isolation</string>
     <string name="settings_vold_app_data_isolation">Vold app data isolation</string>
+    <string name="settings_warning">Warning</string>
+    <string name="settings_vold_warning">This will enable an AOSP feature which make app\'s external private storage directory isolated. This can help improve hiding apps while may cause stability issues. This feature may stop working at any time since it is abandoned in AOSP.</string>
     <string name="settings_change_require_root">Changing requires root permission</string>
     <string name="settings_need_reboot">Changing requires reboot</string>
     <string name="settings_permission_denied">Permission denied</string>
@@ -100,6 +124,8 @@
     <string name="settings_max_log_size">Logger buffer sizes</string>
     <string name="settings_hide_icon">Hide module icon in launcher</string>
     <string name="settings_hide_icon_summary">You can still open the app in Xposed manager</string>
+    <string name="settings_bypass_risky_package_warning">Bypass risky package warning</string>
+    <string name="settings_bypass_risky_package_warning_summary">Note that the devs are not responsible for risky package related issues before or after you enabled this feature</string>
     <string name="settings_language">Language</string>
     <string name="settings_translate">Participate in translation</string>
     <string name="settings_translate_summary">Help us translate %s into your language</string>
@@ -123,6 +149,8 @@
     <string name="settings_receive_beta_update_summary">Beta version may be unstable</string>
     <!-- About -->
     <string name="about_description">        Although It is incorrect to detect specific app installation, yet not every app using root provides random package name support. In this case, detected apps that use root (such as Fake Location and Storage Isolation) is equal to detected root itself.\n\nAt the same time, some smart apps use various loopholes to acquire your app list, so that it can draw a persona for you.\n\nThis module provides some methods to test whether you have already hidden your applist nicely. Also, it can work as an Xposed module to hide some apps or reject app list requests to protect your privacy.
+    </string>
+    <string name="about_fork_description">        The original HMA project has become closed-source and their latest code didn\'t contain some of the latest changes, so I created this fork to continue it as open-source again.
     </string>
     <string name="about_how_to_use_title">How to use this module</string>
     <string name="about_how_to_use_description_1">        You can create templates in \"Template manage\".\nThen apply the templates to apps in \"App manage\". (You can also select extra apps for targets.)\nYou should and ONLY should check \"System Framework\" in Xposed module scope / whitelist.
@@ -152,4 +180,8 @@
     <string name="color_deep_orange">Deep orange</string>
     <string name="color_brown">Brown</string>
     <string name="color_blue_grey">Blue grey</string>
+    <!-- Dark theme modes -->
+    <string name="dark_theme">Dark theme</string>
+    <string name="dark_theme_off">Always off</string>
+    <string name="dark_theme_on">Always on</string>
 </resources>
