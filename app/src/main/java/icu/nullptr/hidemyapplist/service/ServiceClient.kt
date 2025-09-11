@@ -88,6 +88,9 @@ object ServiceClient : IHMAService, IBinder.DeathRecipient {
         getServiceLegacy()?.handlePackageEvent(eventType, packageName)
     }
 
+    override fun getPackagesForPreset(presetName: String) =
+        getServiceLegacy()?.getPackagesForPreset(presetName)
+
     override fun syncConfig(json: String) {
         getServiceLegacy()?.syncConfig(json)
     }

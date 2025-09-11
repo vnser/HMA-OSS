@@ -3,14 +3,11 @@ package icu.nullptr.hidemyapplist.xposed
 import android.content.pm.IPackageManager
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.getFieldByDesc
-import com.github.kyuubiran.ezxhelper.utils.hookAllConstructorAfter
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import icu.nullptr.hidemyapplist.common.Constants
 import kotlin.concurrent.thread
 
 private const val TAG = "HMA-XposedEntry"
