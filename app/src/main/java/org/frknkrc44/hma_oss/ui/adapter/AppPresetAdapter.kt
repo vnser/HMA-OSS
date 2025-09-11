@@ -7,7 +7,6 @@ import icu.nullptr.hidemyapplist.ui.adapter.AppSelectAdapter
 import icu.nullptr.hidemyapplist.ui.view.AppItemView
 import icu.nullptr.hidemyapplist.util.PackageHelper
 import kotlinx.coroutines.runBlocking
-import kotlin.lazy
 
 class AppPresetAdapter(
     private val presetName: String
