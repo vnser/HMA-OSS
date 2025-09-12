@@ -40,11 +40,18 @@ class AppPresetAdapter(
 
         override fun performFiltering(constraint: CharSequence): FilterResults {
             return runBlocking {
-                val constraintLowered = constraint.toString().lowercase()
+                val constraintLowered = constraint.toString().trim().lowercase()
                 val filteredList = packages.filter {
                     if (constraintLowered.isEmpty()) return@filter true
-                    val label = PackageHelper.loadAppLabel(it)
-                    label.lowercase().contains(constraintLowered) || it.lowercase().contains(constraintLowered)
+
+                    if (it.lowercase().contains(constraintLowered)) return@filter true
+
+                    try {
+                        val label = PackageHelper.loadAppLabel(it)
+                        return@filter label.lowercase().contains(constraintLowered)
+                    } catch (e: Throwable) {
+                        return@filter false
+                    }
                 }
 
                 FilterResults().also { it.values = filteredList }
@@ -53,8 +60,11 @@ class AppPresetAdapter(
 
         @Suppress("UNCHECKED_CAST", "NotifyDataSetChanged")
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
-            filteredList = results.values as List<String>
-            notifyDataSetChanged()
+            val values = results.values
+            if (values != null) {
+                filteredList = values as List<String>
+                notifyDataSetChanged()
+            }
         }
     }
 
