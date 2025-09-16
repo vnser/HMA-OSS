@@ -11,6 +11,10 @@
             android:key="voldAppDataIsolation"
             android:summary="@string/settings_need_reboot"
             android:title="@string/settings_vold_app_data_isolation" />
+        <Preference
+            android:key="info"
+            android:icon="@drawable/outline_info_24"
+            android:summary="@string/settings_overwrite_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_module">

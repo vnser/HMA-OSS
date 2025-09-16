@@ -155,7 +155,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
             findPreference<SwitchPreferenceCompat>("appDataIsolation")?.let {
                 it.summary = getString(R.string.settings_need_reboot) + "\n" +
                         getString(
-                            R.string.settings_prop_value,
+                            R.string.settings_default_value,
                             CommonUtils.isAppDataIsolationEnabled.enabledString()
                         )
             }
@@ -163,7 +163,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
             findPreference<SwitchPreferenceCompat>("voldAppDataIsolation")?.let {
                 it.summary = getString(R.string.settings_need_reboot) + "\n" +
                         getString(
-                            R.string.settings_prop_value,
+                            R.string.settings_default_value,
                             CommonUtils.isVoldAppDataIsolationEnabled.enabledString()
                         )
 
