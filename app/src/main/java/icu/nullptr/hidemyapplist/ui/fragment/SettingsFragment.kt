@@ -146,6 +146,26 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             preferenceManager.preferenceDataStore = SettingsPreferenceDataStore()
             setPreferencesFromResource(R.xml.settings_data_isolation, rootKey)
+
+            findPreference<SwitchPreferenceCompat>("voldAppDataIsolation")?.let {
+                it.setOnPreferenceChangeListener { _, newValue ->
+                    val enabled = newValue as Boolean
+                    if (enabled) {
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(R.string.settings_warning)
+                            .setMessage(R.string.settings_vold_warning)
+                            .setPositiveButton(android.R.string.ok) { _, _ ->
+                                it.isChecked = true
+                            }
+                            .setNegativeButton(android.R.string.cancel) { _, _ ->
+                                it.isChecked = false
+                            }
+                            .setCancelable(false)
+                            .show()
+                    }
+                    !enabled
+                }
+            }
         }
     }
 
