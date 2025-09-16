@@ -143,11 +143,30 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
     }
 
     class DataIsolationPreferenceFragment : PreferenceFragmentCompat() {
+        private fun Boolean.enabledString(): String {
+            return if (this) getString(R.string.enabled)
+            else getString(R.string.disabled)
+        }
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             preferenceManager.preferenceDataStore = SettingsPreferenceDataStore()
             setPreferencesFromResource(R.xml.settings_data_isolation, rootKey)
 
+            findPreference<SwitchPreferenceCompat>("appDataIsolation")?.let {
+                it.summary = getString(R.string.settings_need_reboot) + "\n" +
+                        getString(
+                            R.string.settings_prop_value,
+                            CommonUtils.isAppDataIsolationEnabled.enabledString()
+                        )
+            }
+
             findPreference<SwitchPreferenceCompat>("voldAppDataIsolation")?.let {
+                it.summary = getString(R.string.settings_need_reboot) + "\n" +
+                        getString(
+                            R.string.settings_prop_value,
+                            CommonUtils.isVoldAppDataIsolationEnabled.enabledString()
+                        )
+
                 it.setOnPreferenceChangeListener { _, newValue ->
                     val enabled = newValue as Boolean
                     if (enabled) {
