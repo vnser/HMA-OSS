@@ -24,6 +24,7 @@ class AppDataIsolationHook(private val service: HMAService): IFrameworkHook {
     }
 
     private val hooks = mutableListOf<XC_MethodHook.Unhook>()
+    private var voldHookSkipped = false
 
     override fun load() {
         logI(TAG, "Load hook")
@@ -50,11 +51,12 @@ class AppDataIsolationHook(private val service: HMAService): IFrameworkHook {
                 }
             }
 
-            if (service.config.altVoldAppDataIsolation) {
+            if (service.config.altVoldAppDataIsolation && !voldHookSkipped) {
                 val fuseEnabled = Build.VERSION.SDK_INT > Build.VERSION_CODES.R ||
                         SystemProperties.getBoolean(FUSE_PROP, false)
 
                 if (!fuseEnabled) {
+                    voldHookSkipped = true
                     logE(TAG, "ProcessList - FUSE storage is not enabled, skip vold hook")
                 } else {
                     val isolationEnabled = XposedHelpers.getBooleanField(
