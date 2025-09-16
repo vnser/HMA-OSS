@@ -98,8 +98,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 "detailLog" -> ConfigManager.detailLog
                 "hideIcon" -> PrefManager.hideIcon
                 "bypassRiskyPackageWarning" -> PrefManager.bypassRiskyPackageWarning
-                "appDataIsolationAlt" -> ConfigManager.altAppDataIsolation
-                "voldAppDataIsolationAlt" -> ConfigManager.altVoldAppDataIsolation
+                "appDataIsolation" -> ConfigManager.altAppDataIsolation
+                "voldAppDataIsolation" -> ConfigManager.altVoldAppDataIsolation
                 "disableActivityLaunchProtection" -> ConfigManager.disableActivityLaunchProtection
                 "forceMountData" -> ConfigManager.forceMountData
                 else -> throw IllegalArgumentException("Invalid key: $key")
@@ -125,8 +125,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 "hideIcon" -> PrefManager.hideIcon = value
                 "bypassRiskyPackageWarning" -> PrefManager.bypassRiskyPackageWarning = value
                 "disableActivityLaunchProtection" -> ConfigManager.disableActivityLaunchProtection = value
-                "appDataIsolationAlt" -> ConfigManager.altAppDataIsolation = value
-                "voldAppDataIsolationAlt" -> ConfigManager.altVoldAppDataIsolation = value
+                "appDataIsolation" -> ConfigManager.altAppDataIsolation = value
+                "voldAppDataIsolation" -> ConfigManager.altVoldAppDataIsolation = value
                 else -> throw IllegalArgumentException("Invalid key: $key")
             }
         }
