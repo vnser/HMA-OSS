@@ -12,6 +12,7 @@ import icu.nullptr.hidemyapplist.common.JsonConfig
 import icu.nullptr.hidemyapplist.common.Utils
 import icu.nullptr.hidemyapplist.xposed.hook.AccessibilityHook
 import icu.nullptr.hidemyapplist.xposed.hook.ActivityHook
+import icu.nullptr.hidemyapplist.xposed.hook.AppDataIsolationHook
 import icu.nullptr.hidemyapplist.xposed.hook.ContentProviderHook
 import icu.nullptr.hidemyapplist.xposed.hook.IFrameworkHook
 import icu.nullptr.hidemyapplist.xposed.hook.PlatformCompatHook
@@ -20,7 +21,6 @@ import icu.nullptr.hidemyapplist.xposed.hook.PmsHookTarget30
 import icu.nullptr.hidemyapplist.xposed.hook.PmsHookTarget33
 import icu.nullptr.hidemyapplist.xposed.hook.PmsHookTarget34
 import icu.nullptr.hidemyapplist.xposed.hook.PmsPackageEventsHook
-import icu.nullptr.hidemyapplist.xposed.hook.AppDataIsolationHook
 import org.frknkrc44.hma_oss.common.BuildConfig
 import java.io.File
 import java.util.concurrent.ExecutorService
