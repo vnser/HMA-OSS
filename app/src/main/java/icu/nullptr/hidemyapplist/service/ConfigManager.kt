@@ -70,6 +70,20 @@ object ConfigManager {
             saveConfig()
         }
 
+    var altAppDataIsolation: Boolean
+        get() = config.altAppDataIsolation
+        set(value) {
+            config.altAppDataIsolation = value
+            saveConfig()
+        }
+
+    var altVoldAppDataIsolation: Boolean
+        get() = config.altVoldAppDataIsolation
+        set(value) {
+            config.altVoldAppDataIsolation = value
+            saveConfig()
+        }
+
     fun importConfig(json: String) {
         config = JsonConfig.parse(json)
         config.configVersion = BuildConfig.CONFIG_VERSION

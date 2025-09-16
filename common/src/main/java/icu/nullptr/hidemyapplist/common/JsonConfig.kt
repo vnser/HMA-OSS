@@ -17,6 +17,8 @@ data class JsonConfig(
     var maxLogSize: Int = 512,
     var forceMountData: Boolean = true,
     var disableActivityLaunchProtection: Boolean = false,
+    var altAppDataIsolation: Boolean = false,
+    var altVoldAppDataIsolation: Boolean = false,
     val templates: MutableMap<String, Template> = mutableMapOf(),
     val scope: MutableMap<String, AppConfig> = mutableMapOf()
 ) {

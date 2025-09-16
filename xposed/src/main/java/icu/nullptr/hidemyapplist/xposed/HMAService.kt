@@ -20,6 +20,7 @@ import icu.nullptr.hidemyapplist.xposed.hook.PmsHookTarget30
 import icu.nullptr.hidemyapplist.xposed.hook.PmsHookTarget33
 import icu.nullptr.hidemyapplist.xposed.hook.PmsHookTarget34
 import icu.nullptr.hidemyapplist.xposed.hook.PmsPackageEventsHook
+import icu.nullptr.hidemyapplist.xposed.hook.AppDataIsolationHook
 import org.frknkrc44.hma_oss.common.BuildConfig
 import java.io.File
 import java.util.concurrent.ExecutorService
@@ -151,6 +152,7 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             frameworkHooks.add(PlatformCompatHook(this))
+            frameworkHooks.add(AppDataIsolationHook(this))
         }
 
         frameworkHooks.add(ActivityHook(this))

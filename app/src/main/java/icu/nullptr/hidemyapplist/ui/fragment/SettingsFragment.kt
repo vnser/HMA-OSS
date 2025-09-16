@@ -98,8 +98,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 "detailLog" -> ConfigManager.detailLog
                 "hideIcon" -> PrefManager.hideIcon
                 "bypassRiskyPackageWarning" -> PrefManager.bypassRiskyPackageWarning
-                "appDataIsolation" -> CommonUtils.isAppDataIsolationEnabled
-                "voldAppDataIsolation" -> CommonUtils.isVoldAppDataIsolationEnabled
+                "appDataIsolationAlt" -> ConfigManager.altAppDataIsolation
+                "voldAppDataIsolationAlt" -> ConfigManager.altVoldAppDataIsolation
                 "disableActivityLaunchProtection" -> ConfigManager.disableActivityLaunchProtection
                 "forceMountData" -> ConfigManager.forceMountData
                 else -> throw IllegalArgumentException("Invalid key: $key")
@@ -125,8 +125,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 "hideIcon" -> PrefManager.hideIcon = value
                 "bypassRiskyPackageWarning" -> PrefManager.bypassRiskyPackageWarning = value
                 "disableActivityLaunchProtection" -> ConfigManager.disableActivityLaunchProtection = value
-                "appDataIsolation" -> Unit
-                "voldAppDataIsolation" -> Unit
+                "appDataIsolationAlt" -> ConfigManager.altAppDataIsolation = value
+                "voldAppDataIsolationAlt" -> ConfigManager.altVoldAppDataIsolation = value
                 else -> throw IllegalArgumentException("Invalid key: $key")
             }
         }
@@ -146,58 +146,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             preferenceManager.preferenceDataStore = SettingsPreferenceDataStore()
             setPreferencesFromResource(R.xml.settings_data_isolation, rootKey)
-
-            findPreference<SwitchPreferenceCompat>("appDataIsolation")?.let {
-                it.setOnPreferenceChangeListener { _, newValue ->
-                    handleIsolationChange(
-                        preference = it,
-                        enabled = newValue as Boolean,
-                        property = Constants.ANDROID_APP_DATA_ISOLATION_ENABLED_PROPERTY,
-                        checker = CommonUtils::isAppDataIsolationEnabled
-                    )
-                    false
-                }
-            }
-
-            findPreference<SwitchPreferenceCompat>("voldAppDataIsolation")?.let {
-                it.setOnPreferenceChangeListener { _, newValue ->
-                    val enabled = newValue as Boolean
-                    if (enabled) {
-                        MaterialAlertDialogBuilder(requireContext())
-                            .setTitle(R.string.settings_warning)
-                            .setMessage(R.string.settings_vold_warning)
-                            .setPositiveButton(android.R.string.ok) { _, _ ->
-                                handleIsolationChange(
-                                    preference = it,
-                                    enabled = true,
-                                    property = Constants.ANDROID_VOLD_APP_DATA_ISOLATION_ENABLED_PROPERTY,
-                                    checker = CommonUtils::isVoldAppDataIsolationEnabled
-                                )
-                            }
-                            .setNegativeButton(android.R.string.cancel) { _, _ ->
-                                it.isChecked = false
-                            }
-                            .setCancelable(false)
-                            .show()
-                    } else {
-                        handleIsolationChange(
-                            preference = it,
-                            enabled = false,
-                            property = Constants.ANDROID_VOLD_APP_DATA_ISOLATION_ENABLED_PROPERTY,
-                            checker = CommonUtils::isVoldAppDataIsolationEnabled
-                        )
-                    }
-                    false
-                }
-            }
-        }
-
-        private fun handleIsolationChange(preference: SwitchPreferenceCompat, enabled: Boolean, property: String, checker: () -> Boolean) {
-            val value = if (enabled) 1 else 0
-            val result = SuUtils.execPrivileged("setprop $property $value")
-            if (result) makeToast(R.string.settings_need_reboot)
-            else makeToast(R.string.settings_permission_denied)
-            preference.isChecked = checker()
         }
     }
 
@@ -213,8 +161,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 it.summary = when {
                     it.isEnabled -> getString(
                         R.string.settings_data_isolation_summary,
-                        CommonUtils.isAppDataIsolationEnabled.enabledString(),
-                        CommonUtils.isVoldAppDataIsolationEnabled.enabledString(),
+                        if (ConfigManager.altAppDataIsolation) getString(R.string.settings_overwritten)
+                        else CommonUtils.isAppDataIsolationEnabled.enabledString(),
+                        if (ConfigManager.altVoldAppDataIsolation) getString(R.string.settings_overwritten)
+                        else CommonUtils.isVoldAppDataIsolationEnabled.enabledString(),
                         ConfigManager.forceMountData.enabledString()
                     )
                     else -> getString(R.string.settings_data_isolation_unsupported)

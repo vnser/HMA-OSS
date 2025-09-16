@@ -3,13 +3,13 @@
     <PreferenceCategory android:title="@string/system">
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_outline_layers_24"
-            android:key="appDataIsolation"
-            android:summary="@string/settings_change_require_root"
+            android:key="appDataIsolationAlt"
+            android:summary="@string/settings_need_reboot"
             android:title="@string/settings_app_data_isolation" />
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_outline_layers_24"
-            android:key="voldAppDataIsolation"
-            android:summary="@string/settings_change_require_root"
+            android:key="voldAppDataIsolationAlt"
+            android:summary="@string/settings_need_reboot"
             android:title="@string/settings_vold_app_data_isolation" />
     </PreferenceCategory>
 
