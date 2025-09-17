@@ -106,6 +106,7 @@
     <string name="app_force_stop_warning">Don\'t forget to force stop the target app after saving the configuration</string>
     <string name="app_invert_activity_launch_protection">Invert Activity launch protection</string>
     <string name="app_invert_activity_launch_protection_desc">This option will invert \"Disable Activity launch protection\" selection in Settings.</string>
+    <string name="app_global_activity_launch_protection_state">Protection is %s globally</string>
 
     <!-- Presets -->
     <string name="title_preset_manage">Show presets</string>

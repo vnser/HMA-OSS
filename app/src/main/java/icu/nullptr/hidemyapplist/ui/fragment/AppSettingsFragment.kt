@@ -23,6 +23,7 @@ import icu.nullptr.hidemyapplist.common.AppPresets
 import icu.nullptr.hidemyapplist.common.JsonConfig
 import icu.nullptr.hidemyapplist.common.SettingsPresets
 import icu.nullptr.hidemyapplist.service.ConfigManager
+import icu.nullptr.hidemyapplist.ui.util.enabledString
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
 import icu.nullptr.hidemyapplist.ui.viewmodel.AppSettingsViewModel
@@ -178,6 +179,12 @@ class AppSettingsFragment : Fragment(R.layout.fragment_settings) {
                 Toast.makeText(requireContext(),
                     R.string.app_force_stop_warning, Toast.LENGTH_LONG).show()
                 true
+            }
+            findPreference<SwitchPreferenceCompat>("invertActivityLaunchProtection")?.let {
+                it.summary = getString(R.string.app_invert_activity_launch_protection_desc) + "\n\n" +
+                        getString(R.string.app_global_activity_launch_protection_state,
+                            (!ConfigManager.disableActivityLaunchProtection).enabledString(resources)
+                        )
             }
             findPreference<SwitchPreferenceCompat>("useWhiteList")?.setOnPreferenceChangeListener { _, newValue ->
                 pack.config.applyTemplates.clear()

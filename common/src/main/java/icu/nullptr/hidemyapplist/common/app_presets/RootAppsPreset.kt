@@ -48,10 +48,6 @@ class RootAppsPreset() : BasePreset("root_apps") {
     override fun canBeAddedIntoPreset(appInfo: ApplicationInfo): Boolean {
         val packageName = appInfo.packageName
 
-        if (containsPackage(packageName)) {
-            return false
-        }
-
         // All libxzr apps (konabess, hkf, ...)
         if (Utils.startsWithMultiple(packageName, "xzr.", "moe.xzr.")) {
             return true

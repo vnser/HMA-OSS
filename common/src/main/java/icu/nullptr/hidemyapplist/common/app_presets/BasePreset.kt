@@ -8,15 +8,13 @@ abstract class BasePreset(val name: String) {
 
     protected abstract fun canBeAddedIntoPreset(appInfo: ApplicationInfo): Boolean
 
-    fun isDynamicListEmpty() = packageNames.isEmpty()
-
     fun containsPackage(packageName: String) = exactPackageNames.contains(packageName) || packageNames.contains(packageName)
 
     val packages get() = packageNames + exactPackageNames
 
     fun addPackageInfoPreset(appInfo: ApplicationInfo): Boolean {
         val packageName = appInfo.packageName
-        if (!exactPackageNames.contains(packageName) && canBeAddedIntoPreset(appInfo)) {
+        if (!containsPackage(packageName) && canBeAddedIntoPreset(appInfo)) {
             packageNames.add(packageName)
             return true
         }

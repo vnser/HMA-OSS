@@ -21,6 +21,7 @@ import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.service.PrefManager
 import icu.nullptr.hidemyapplist.service.ServiceClient
 import icu.nullptr.hidemyapplist.ui.activity.AboutActivity
+import icu.nullptr.hidemyapplist.ui.util.enabledString
 import icu.nullptr.hidemyapplist.ui.util.makeToast
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
@@ -142,11 +143,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
     }
 
     class DataIsolationPreferenceFragment : PreferenceFragmentCompat() {
-        private fun Boolean.enabledString(): String {
-            return if (this) getString(R.string.enabled)
-            else getString(R.string.disabled)
-        }
-
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             preferenceManager.preferenceDataStore = SettingsPreferenceDataStore()
             setPreferencesFromResource(R.xml.settings_data_isolation, rootKey)
@@ -155,7 +151,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 it.summary = getString(R.string.settings_need_reboot) + "\n" +
                         getString(
                             R.string.settings_default_value,
-                            CommonUtils.isAppDataIsolationEnabled.enabledString()
+                            CommonUtils.isAppDataIsolationEnabled.enabledString(resources)
                         )
             }
 
@@ -163,7 +159,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 it.summary = getString(R.string.settings_need_reboot) + "\n" +
                         getString(
                             R.string.settings_default_value,
-                            CommonUtils.isVoldAppDataIsolationEnabled.enabledString()
+                            CommonUtils.isVoldAppDataIsolationEnabled.enabledString(resources)
                         )
 
                 it.setOnPreferenceChangeListener { _, newValue ->
@@ -188,11 +184,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
     }
 
     class SettingsPreferenceFragment : PreferenceFragmentCompat() {
-        private fun Boolean.enabledString(): String {
-            return if (this) getString(R.string.enabled)
-            else getString(R.string.disabled)
-        }
-
         private fun configureDataIsolation() {
             findPreference<Preference>("dataIsolation")?.let {
                 it.isEnabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
@@ -200,10 +191,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                     it.isEnabled -> getString(
                         R.string.settings_data_isolation_summary,
                         if (ConfigManager.altAppDataIsolation) getString(R.string.settings_overwritten)
-                        else CommonUtils.isAppDataIsolationEnabled.enabledString(),
+                        else CommonUtils.isAppDataIsolationEnabled.enabledString(resources),
                         if (ConfigManager.altVoldAppDataIsolation) getString(R.string.settings_overwritten)
-                        else CommonUtils.isVoldAppDataIsolationEnabled.enabledString(),
-                        ConfigManager.forceMountData.enabledString()
+                        else CommonUtils.isVoldAppDataIsolationEnabled.enabledString(resources),
+                        ConfigManager.forceMountData.enabledString(resources)
                     )
                     else -> getString(R.string.settings_data_isolation_unsupported)
                 }

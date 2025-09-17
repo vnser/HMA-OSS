@@ -2,6 +2,8 @@ package icu.nullptr.hidemyapplist.common
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.IPackageManager
+import icu.nullptr.hidemyapplist.common.RiskyPackageUtils.appHasGMSConnection
+import icu.nullptr.hidemyapplist.common.RiskyPackageUtils.ignoredForRiskyPackagesList
 import icu.nullptr.hidemyapplist.common.Utils.getInstalledApplicationsCompat
 import icu.nullptr.hidemyapplist.common.Utils.getPackageInfoCompat
 import icu.nullptr.hidemyapplist.common.app_presets.BasePreset
@@ -12,6 +14,7 @@ import icu.nullptr.hidemyapplist.common.app_presets.XposedModulesPreset
 // TODO: Update presets when package added/removed
 class AppPresets private constructor() {
     private val presetList = mutableListOf<BasePreset>()
+
     var loggerFunction: ((String) -> Unit)? = null
 
     companion object {
@@ -23,23 +26,25 @@ class AppPresets private constructor() {
     fun getPresetByName(name: String) = presetList.firstOrNull { it.name == name }
 
     fun reloadPresetsIfEmpty(pms: IPackageManager) {
-        var appsList: List<ApplicationInfo>? = null
+        val appsList = getInstalledApplicationsCompat(pms, 0, 0)
 
-        presetList.forEach {
-            if (it.isDynamicListEmpty()) {
-                if (appsList == null) {
-                    appsList = getInstalledApplicationsCompat(pms, 0, 0)
-                }
-
-                for (appInfo in appsList) {
-                    runCatching {
-                        it.addPackageInfoPreset(appInfo)
-                    }.onFailure { fail ->
-                        loggerFunction?.invoke(fail.toString())
-                    }
-                }
+        for (appInfo in appsList) {
+            runCatching {
+                appHasGMSConnection(appInfo, appInfo.packageName, loggerFunction)
+            }.onFailure { fail ->
+                loggerFunction?.invoke(fail.toString())
             }
 
+            presetList.forEach {
+                runCatching {
+                    it.addPackageInfoPreset(appInfo)
+                }.onFailure { fail ->
+                    loggerFunction?.invoke(fail.toString())
+                }
+            }
+        }
+
+        presetList.forEach {
             loggerFunction?.invoke(it.toString())
         }
     }
@@ -66,6 +71,12 @@ class AppPresets private constructor() {
             }
         }
 
+        if (appInfo == null)
+            appInfo = getPackageInfoCompat(pms, packageName, 0, 0).applicationInfo
+
+        if (appInfo != null)
+            appHasGMSConnection(appInfo, packageName, loggerFunction)
+
         if (addedInAList)
             loggerFunction?.invoke("Package add event handled for $packageName!")
     }
@@ -77,6 +88,8 @@ class AppPresets private constructor() {
             if (it.removePackageFromPreset(packageName))
                 itWasInAList = true
         }
+
+        ignoredForRiskyPackagesList.remove(packageName)
 
         if (itWasInAList)
             loggerFunction?.invoke("Package remove event handled for $packageName!")

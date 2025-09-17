@@ -9,6 +9,7 @@ import icu.nullptr.hidemyapplist.common.AppPresets
 import icu.nullptr.hidemyapplist.common.Constants
 import icu.nullptr.hidemyapplist.common.IHMAService
 import icu.nullptr.hidemyapplist.common.JsonConfig
+import icu.nullptr.hidemyapplist.common.RiskyPackageUtils.appHasGMSConnection
 import icu.nullptr.hidemyapplist.common.Utils
 import icu.nullptr.hidemyapplist.xposed.hook.AccessibilityHook
 import icu.nullptr.hidemyapplist.xposed.hook.ActivityHook
@@ -171,10 +172,12 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
         return config.scope[caller]?.applySettingsPresets ?: return setOf()
     }
 
+    fun isAppInGMSIgnoredPackages(caller: String, query: String) =
+        (caller == Constants.GMS_PACKAGE_NAME || caller == Constants.GSF_PACKAGE_NAME) && appHasGMSConnection(query)
+
     fun shouldHide(caller: String?, query: String?): Boolean {
         if (caller == null || query == null) return false
         if (caller in Constants.packagesShouldNotHide || query in Constants.packagesShouldNotHide) return false
-        if ((caller == Constants.GMS_PACKAGE_NAME || caller == Constants.GSF_PACKAGE_NAME) && query == Constants.APP_PACKAGE_NAME) return false // If apply hide on gms, hma app will crash 😓
         if (caller == query) return false
         val appConfig = config.scope[caller] ?: return false
         if (appConfig.useWhitelist && appConfig.excludeSystemApps && query in systemApps) return false
@@ -182,13 +185,18 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
         if (query in appConfig.extraAppList) return !appConfig.useWhitelist
         for (tplName in appConfig.applyTemplates) {
             val tpl = config.templates[tplName]!!
-            if (query in tpl.appList) return !appConfig.useWhitelist
+            if (query in tpl.appList) {
+                if (isAppInGMSIgnoredPackages(caller, query)) return false
+
+                return !appConfig.useWhitelist
+            }
         }
 
         if (!appConfig.useWhitelist) {
             for (presetName in appConfig.applyPresets) {
                 val preset = AppPresets.instance.getPresetByName(presetName) ?: continue
-                if (preset.containsPackage(query)) return true
+                if (preset.containsPackage(query))
+                    return !isAppInGMSIgnoredPackages(caller, query)
             }
         }
 
