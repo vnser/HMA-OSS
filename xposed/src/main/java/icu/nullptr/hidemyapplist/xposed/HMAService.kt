@@ -12,6 +12,7 @@ import icu.nullptr.hidemyapplist.common.JsonConfig
 import icu.nullptr.hidemyapplist.common.Utils
 import icu.nullptr.hidemyapplist.xposed.hook.AccessibilityHook
 import icu.nullptr.hidemyapplist.xposed.hook.ActivityHook
+import icu.nullptr.hidemyapplist.xposed.hook.AppDataIsolationHook
 import icu.nullptr.hidemyapplist.xposed.hook.ContentProviderHook
 import icu.nullptr.hidemyapplist.xposed.hook.IFrameworkHook
 import icu.nullptr.hidemyapplist.xposed.hook.PlatformCompatHook
@@ -151,6 +152,7 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             frameworkHooks.add(PlatformCompatHook(this))
+            frameworkHooks.add(AppDataIsolationHook(this))
         }
 
         frameworkHooks.add(ActivityHook(this))
