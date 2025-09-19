@@ -19,6 +19,7 @@ data class JsonConfig(
     var disableActivityLaunchProtection: Boolean = false,
     var altAppDataIsolation: Boolean = false,
     var altVoldAppDataIsolation: Boolean = false,
+    var skipSystemAppDataIsolation: Boolean = true,
     val templates: MutableMap<String, Template> = mutableMapOf(),
     val scope: MutableMap<String, AppConfig> = mutableMapOf()
 ) {

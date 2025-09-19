@@ -22,9 +22,9 @@ import icu.nullptr.hidemyapplist.service.PrefManager
 import icu.nullptr.hidemyapplist.service.ServiceClient
 import icu.nullptr.hidemyapplist.ui.activity.AboutActivity
 import icu.nullptr.hidemyapplist.ui.util.enabledString
-import icu.nullptr.hidemyapplist.ui.util.makeToast
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
+import icu.nullptr.hidemyapplist.ui.util.showToast
 import icu.nullptr.hidemyapplist.util.ConfigUtils.Companion.getLocale
 import icu.nullptr.hidemyapplist.util.LangList
 import icu.nullptr.hidemyapplist.util.SuUtils
@@ -100,6 +100,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 "bypassRiskyPackageWarning" -> PrefManager.bypassRiskyPackageWarning
                 "appDataIsolation" -> ConfigManager.altAppDataIsolation
                 "voldAppDataIsolation" -> ConfigManager.altVoldAppDataIsolation
+                "skipSystemAppDataIsolation" -> ConfigManager.skipSystemAppDataIsolation
                 "disableActivityLaunchProtection" -> ConfigManager.disableActivityLaunchProtection
                 "forceMountData" -> ConfigManager.forceMountData
                 else -> throw IllegalArgumentException("Invalid key: $key")
@@ -127,6 +128,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 "disableActivityLaunchProtection" -> ConfigManager.disableActivityLaunchProtection = value
                 "appDataIsolation" -> ConfigManager.altAppDataIsolation = value
                 "voldAppDataIsolation" -> ConfigManager.altVoldAppDataIsolation = value
+                "skipSystemAppDataIsolation" -> ConfigManager.skipSystemAppDataIsolation = value
                 else -> throw IllegalArgumentException("Invalid key: $key")
             }
         }
@@ -148,7 +150,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
             setPreferencesFromResource(R.xml.settings_data_isolation, rootKey)
 
             findPreference<SwitchPreferenceCompat>("appDataIsolation")?.let {
-                it.summary = getString(R.string.settings_need_reboot) + "\n" +
+                it.summary = getString(R.string.settings_need_reboot) + "\n\n" +
                         getString(
                             R.string.settings_default_value,
                             CommonUtils.isAppDataIsolationEnabled.enabledString(resources)
@@ -156,7 +158,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
             }
 
             findPreference<SwitchPreferenceCompat>("voldAppDataIsolation")?.let {
-                it.summary = getString(R.string.settings_need_reboot) + "\n" +
+                it.summary = getString(R.string.settings_need_reboot) + "\n\n" +
                         getString(
                             R.string.settings_default_value,
                             CommonUtils.isVoldAppDataIsolationEnabled.enabledString(resources)
@@ -263,15 +265,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                         .setMessage(R.string.settings_is_clean_env_summary)
                         .setPositiveButton(R.string.yes) { _, _ ->
                             ServiceClient.stopService(true)
-                            makeToast(R.string.settings_stop_system_service)
+                            showToast(R.string.settings_stop_system_service)
                         }
                         .setNegativeButton(R.string.no) { _, _ ->
                             ServiceClient.stopService(false)
-                            makeToast(R.string.settings_stop_system_service)
+                            showToast(R.string.settings_stop_system_service)
                         }
                         .setNeutralButton(android.R.string.cancel, null)
                         .show()
-                } else makeToast(R.string.home_xposed_service_off)
+                } else showToast(R.string.home_xposed_service_off)
                 true
             }
 
@@ -281,8 +283,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                     .setMessage(R.string.settings_is_clean_env_summary)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         val result = SuUtils.execPrivileged("rm -rf /data/misc/hide_my_applist*")
-                        if (result) makeToast(R.string.settings_force_clean_env_toast_successful)
-                        else makeToast(R.string.settings_permission_denied)
+                        if (result) showToast(R.string.settings_force_clean_env_toast_successful)
+                        else showToast(R.string.settings_permission_denied)
                     }
                     .setNegativeButton(android.R.string.cancel, null)
                     .show()

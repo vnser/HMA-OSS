@@ -4,17 +4,25 @@
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_outline_layers_24"
             android:key="appDataIsolation"
-            android:summary="@string/settings_need_reboot"
             android:title="@string/settings_app_data_isolation" />
         <SwitchPreferenceCompat
-            android:icon="@drawable/ic_outline_layers_24"
+            android:icon="@drawable/outline_sd_storage_24"
             android:key="voldAppDataIsolation"
-            android:summary="@string/settings_need_reboot"
             android:title="@string/settings_vold_app_data_isolation" />
         <Preference
             android:key="info"
             android:icon="@drawable/outline_info_24"
             android:summary="@string/settings_overwrite_summary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_vold_app_data_isolation"
+        android:dependency="voldAppDataIsolation">
+
+        <SwitchPreferenceCompat
+            android:key="skipSystemAppDataIsolation"
+            android:summary="@string/settings_need_reboot"
+            android:title="@string/app_exclude_system_apps" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_module">

@@ -44,7 +44,7 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
 
     private val configLock = Any()
     private val loggerLock = Any()
-    private val systemApps = mutableSetOf<String>()
+    val systemApps = mutableSetOf<String>()
     private val frameworkHooks = mutableSetOf<IFrameworkHook>()
     val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
@@ -264,18 +264,23 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
         }
     }
 
-    override fun syncConfig(json: String) {
+    override fun writeConfig(json: String) {
         synchronized(configLock) {
-            configFile.writeText(json)
-            val newConfig = JsonConfig.parse(json)
-            if (newConfig.configVersion != BuildConfig.CONFIG_VERSION) {
-                logW(TAG, "Sync config: version mismatch, need reboot")
-                return
+            runCatching {
+                val newConfig = JsonConfig.parse(json)
+                if (newConfig.configVersion != BuildConfig.CONFIG_VERSION) {
+                    logW(TAG, "Sync config: version mismatch, need reboot")
+                    return
+                }
+                config = newConfig
+                configFile.writeText(json)
+                frameworkHooks.forEach(IFrameworkHook::onConfigChanged)
+            }.onSuccess {
+                logD(TAG, "Config synced")
+            }.onFailure {
+                return@synchronized
             }
-            config = newConfig
-            frameworkHooks.forEach(IFrameworkHook::onConfigChanged)
         }
-        logD(TAG, "Config synced")
     }
 
     override fun getServiceVersion() = BuildConfig.SERVICE_VERSION
@@ -305,4 +310,6 @@ class HMAService(val pms: IPackageManager) : IHMAService.Stub() {
 
     override fun getPackagesForPreset(presetName: String) =
         AppPresets.instance.getPresetByName(presetName)?.packages?.toTypedArray()
+
+    override fun readConfig() = config.toString()
 }

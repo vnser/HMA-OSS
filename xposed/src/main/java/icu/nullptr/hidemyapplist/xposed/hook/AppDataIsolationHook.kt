@@ -8,7 +8,9 @@ import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
+import icu.nullptr.hidemyapplist.common.Utils
 import icu.nullptr.hidemyapplist.xposed.HMAService
+import icu.nullptr.hidemyapplist.xposed.logD
 import icu.nullptr.hidemyapplist.xposed.logE
 import icu.nullptr.hidemyapplist.xposed.logI
 
@@ -80,6 +82,29 @@ class AppDataIsolationHook(private val service: HMAService): IFrameworkHook {
         }
 
         findMethodOrNull(
+            "com.android.server.am.ProcessList"
+        ) {
+            name == "needsStorageDataIsolation"
+        }?.hookAfter { param ->
+            if (service.config.altVoldAppDataIsolation && service.config.skipSystemAppDataIsolation) {
+                val app = param.args.find { it.javaClass.simpleName == "ProcessRecord" }
+                val uid = XposedHelpers.getIntField(app, "uid")
+                val apps = Utils.binderLocalScope {
+                    service.pms.getPackagesForUid(uid)
+                } ?: return@hookAfter
+
+                val isSystemApp = service.systemApps.any { apps.contains(it) }
+                logD(
+                    TAG,
+                    "@needsStorageDataIsolation $uid - ${apps.contentToString()} isSystemApp: $isSystemApp"
+                )
+                if (isSystemApp) param.result = false
+            }
+        }?.let {
+            hooks += it
+        }
+
+        findMethodOrNull(
             "com.android.server.StorageManagerService"
         ) {
             name == "onVolumeStateChangedLocked"
@@ -113,6 +138,44 @@ class AppDataIsolationHook(private val service: HMAService): IFrameworkHook {
             }.onFailure {
                 logE(TAG, "Fatal error occurred, disable hooks", it)
                 unload()
+            }
+        }?.let {
+            hooks += it
+        }
+
+        findMethodOrNull(
+            "com.android.server.StorageManagerService"
+        ) {
+            name == "remountAppStorageDirs"
+        }?.hookBefore { param ->
+            if (service.config.altVoldAppDataIsolation && service.config.skipSystemAppDataIsolation) {
+                val pidPkgMap = param.args[0] as java.util.Map<*, *>
+                val userId = param.args[1] as Int
+
+                val keysToRemove = mutableSetOf<Any>()
+
+                for (entry in pidPkgMap.entrySet()) {
+                    val pid = entry.key
+                    val packageName = entry.value as String
+
+                    val apps = Utils.binderLocalScope {
+                        val uid = Utils.getPackageUidCompat(service.pms, packageName, 0L, userId)
+                        service.pms.getPackagesForUid(uid)
+                    } ?: continue
+
+                    for (app in apps) {
+                        if (app in service.systemApps) {
+                            logD(
+                                TAG,
+                                "@remountAppStorageDirs SYSTEM $pid - $packageName is marked to remove"
+                            )
+                            keysToRemove += pid
+                            break
+                        }
+                    }
+                }
+
+                keysToRemove.forEach { pidPkgMap.remove(it) }
             }
         }?.let {
             hooks += it

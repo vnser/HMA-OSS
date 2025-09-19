@@ -2,7 +2,6 @@ package icu.nullptr.hidemyapplist.common
 
 import android.content.pm.ApplicationInfo
 import java.util.zip.ZipFile
-import kotlin.text.contains
 
 object RiskyPackageUtils {
     private const val GMS_PROP = "\u0000c\u0000o\u0000m\u0000.\u0000g\u0000o\u0000o\u0000g\u0000l\u0000e\u0000.\u0000a\u0000n\u0000d\u0000r\u0000o\u0000i\u0000d\u0000.\u0000g\u0000m\u0000s\u0000."
