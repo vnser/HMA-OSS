@@ -9,6 +9,7 @@ import icu.nullptr.hidemyapplist.common.Utils.getPackageInfoCompat
 import icu.nullptr.hidemyapplist.common.app_presets.BasePreset
 import icu.nullptr.hidemyapplist.common.app_presets.CustomROMPreset
 import icu.nullptr.hidemyapplist.common.app_presets.RootAppsPreset
+import icu.nullptr.hidemyapplist.common.app_presets.SuspiciousAppsPreset
 import icu.nullptr.hidemyapplist.common.app_presets.XposedModulesPreset
 
 // TODO: Update presets when package added/removed
@@ -99,6 +100,7 @@ class AppPresets private constructor() {
         presetList.add(CustomROMPreset())
         presetList.add(RootAppsPreset())
         presetList.add(XposedModulesPreset())
+        presetList.add(SuspiciousAppsPreset())
     }
 }
 

@@ -1,6 +1,7 @@
 package icu.nullptr.hidemyapplist.common.app_presets
 
 import android.content.pm.ApplicationInfo
+import java.util.zip.ZipFile
 
 abstract class BasePreset(val name: String) {
     protected abstract val exactPackageNames: Set<String>
@@ -25,6 +26,30 @@ abstract class BasePreset(val name: String) {
     fun removePackageFromPreset(packageName: String): Boolean {
         if (exactPackageNames.contains(packageName)) return false
         return packageNames.remove(packageName)
+    }
+
+    protected fun findAppsFromLibs(zipFile: ZipFile, libNames: Array<String>): Boolean {
+        val architectures = arrayOf("arm64-v8a", "armeabi-v7a")
+
+        for (entry in libNames) {
+            for (arch in architectures) {
+                if (zipFile.getEntry("lib/$arch/$entry") != null) {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+
+    protected fun findAppsFromAssets(zipFile: ZipFile, assetNames: Array<String>): Boolean {
+        for (entry in assetNames) {
+            if (zipFile.getEntry("assets/$entry") != null) {
+                return true
+            }
+        }
+
+        return false
     }
 
     override fun toString() = "${javaClass.simpleName} {" +
