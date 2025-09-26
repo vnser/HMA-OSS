@@ -10,8 +10,11 @@ plugins {
     alias(libs.plugins.nav.safeargs.kotlin)
 }
 
+
+val appPackageName: String by rootProject.extra
+
 android {
-    namespace = "org.frknkrc44.hma_oss"
+    namespace = appPackageName
 
     buildFeatures {
         buildConfig = true

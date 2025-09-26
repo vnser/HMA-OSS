@@ -1,7 +1,6 @@
 package icu.nullptr.hidemyapplist.common.app_presets
 
 import android.content.pm.ApplicationInfo
-import icu.nullptr.hidemyapplist.common.CommonUtils
 import java.util.zip.ZipFile
 
 class XposedModulesPreset() : BasePreset("xposed") {

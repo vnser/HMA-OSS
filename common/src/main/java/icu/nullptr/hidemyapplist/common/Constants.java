@@ -1,12 +1,12 @@
 package icu.nullptr.hidemyapplist.common;
 
+import org.frknkrc44.hma_oss.common.BuildConfig;
+
 import java.util.Set;
 
 public class Constants {
 
-    public static final String APP_PACKAGE_NAME = "org.frknkrc44.hma_oss";
-
-    public static final String PROVIDER_AUTHORITY = APP_PACKAGE_NAME + ".ServiceProvider";
+    public static final String PROVIDER_AUTHORITY = BuildConfig.APP_PACKAGE_NAME + ".ServiceProvider";
     public static final String GMS_PACKAGE_NAME = "com.google.android.gms";
     public static final String GSF_PACKAGE_NAME = "com.google.android.gsf";
     public static final String VENDING_PACKAGE_NAME = "com.android.vending";

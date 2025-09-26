@@ -12,7 +12,6 @@ import icu.nullptr.hidemyapplist.common.app_presets.RootAppsPreset
 import icu.nullptr.hidemyapplist.common.app_presets.SuspiciousAppsPreset
 import icu.nullptr.hidemyapplist.common.app_presets.XposedModulesPreset
 
-// TODO: Update presets when package added/removed
 class AppPresets private constructor() {
     private val presetList = mutableListOf<BasePreset>()
 

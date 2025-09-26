@@ -16,13 +16,15 @@ import icu.nullptr.hidemyapplist.xposed.logI
 class ActivityHook(private val service: HMAService) : IFrameworkHook {
     companion object {
         private const val TAG = "ActivityHook"
-        private val fakeReturnCode = getStaticIntField(
-            findClass(
-                "android.app.ActivityManager",
-                InitFields.ezXClassLoader
-            ),
-            "START_INTENT_NOT_RESOLVED"
-        )
+        private val fakeReturnCode by lazy {
+            getStaticIntField(
+                findClass(
+                    "android.app.ActivityManager",
+                    InitFields.ezXClassLoader
+                ),
+                "START_INTENT_NOT_RESOLVED"
+            )
+        }
     }
 
     private var hook: XC_MethodHook.Unhook? = null

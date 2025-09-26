@@ -28,19 +28,18 @@ object UserService {
             if (uid != appUid) return
             try {
                 val provider = ActivityManagerApis.getContentProviderExternal(Constants.PROVIDER_AUTHORITY, 0, null, null)
-                if (provider == null) {
-                    logE(TAG, "Failed to get provider")
-                    return
+                assert (provider != null) {
+                    "Failed to get provider"
                 }
                 val extras = Bundle()
                 extras.putBinder("binder", HMAService.instance)
                 val reply = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     val attr = AttributionSource.Builder(1000).setPackageName("android").build()
-                    provider.call(attr, Constants.PROVIDER_AUTHORITY, "", null, extras)
+                    provider?.call(attr, Constants.PROVIDER_AUTHORITY, "", null, extras)
                 } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R) {
-                    provider.call("android", null, Constants.PROVIDER_AUTHORITY, "", null, extras)
+                    provider?.call("android", null, Constants.PROVIDER_AUTHORITY, "", null, extras)
                 } else {
-                    provider.call("android", Constants.PROVIDER_AUTHORITY, "", null, extras)
+                    provider?.call("android", Constants.PROVIDER_AUTHORITY, "", null, extras)
                 }
                 if (reply == null) {
                     logE(TAG, "Failed to send binder to app")
@@ -54,14 +53,19 @@ object UserService {
     }
 
     fun register(pms: IPackageManager) {
-        logI(TAG, "Initialize HMAService - Version ${BuildConfig.SERVICE_VERSION}")
+        logI(TAG, "Initialize HMAService - Version ${BuildConfig.APP_VERSION_NAME}")
         val service = HMAService(pms)
-        appUid = Utils.getPackageUidCompat(service.pms, Constants.APP_PACKAGE_NAME, 0, 0)
-        val appPackage = Utils.getPackageInfoCompat(service.pms, Constants.APP_PACKAGE_NAME, 0, 0)
-        if (!Utils.verifyAppSignature(appPackage.applicationInfo?.sourceDir.toString())) {
-            logE(TAG, "Fatal: App signature mismatch")
+
+        try {
+            appUid = Utils.getPackageUidCompat(service.pms, BuildConfig.APP_PACKAGE_NAME, 0, 0)
+            assert(appUid >= 0) {
+                "App UID cannot be -1 or lower"
+            }
+        } catch (e: Throwable) {
+            logE(TAG, "Fatal: Cannot get package details\nCompile this app from source with your changes", e)
             return
         }
+
         logD(TAG, "Client uid: $appUid")
         logI(TAG, "Register observer")
 
@@ -69,7 +73,7 @@ object UserService {
         ActivityManagerApis.registerUidObserver(
             uidObserver,
             ActivityManagerHidden.UID_OBSERVER_ACTIVE,
-            ActivityManagerHidden.PROCESS_STATE_UNKNOWN,
+            ActivityManagerHidden.PROCESS_STATE_TOP,
             null
         )
     }

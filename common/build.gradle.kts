@@ -8,9 +8,11 @@ plugins {
 val configVerCode: Int by rootProject.extra
 val serviceVerCode: Int by rootProject.extra
 val minBackupVerCode: Int by rootProject.extra
+val appPackageName: String by rootProject.extra
+val appVerName: String by rootProject.extra
 
 android {
-    namespace = "org.frknkrc44.hma_oss.common"
+    namespace = "$appPackageName.common"
 
     buildFeatures {
         aidl = true
@@ -21,6 +23,8 @@ android {
         buildConfigField("int", "CONFIG_VERSION", configVerCode.toString())
         buildConfigField("int", "SERVICE_VERSION", serviceVerCode.toString())
         buildConfigField("int", "MIN_BACKUP_VERSION", minBackupVerCode.toString())
+        buildConfigField("String", "APP_PACKAGE_NAME", "\"$appPackageName\"")
+        buildConfigField("String", "APP_VERSION_NAME", "\"$appVerName\"")
     }
 }
 

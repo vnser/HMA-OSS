@@ -59,6 +59,9 @@ val serviceVerCode by extra(98)
 @Suppress("unused")
 val minBackupVerCode by extra(65)
 
+@Suppress("unused")
+val appPackageName by extra("org.frknkrc44.hma_oss")
+
 val androidSourceCompatibility = JavaVersion.VERSION_21
 val androidTargetCompatibility = JavaVersion.VERSION_21
 
