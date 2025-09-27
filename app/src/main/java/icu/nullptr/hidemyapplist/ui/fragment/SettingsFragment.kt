@@ -20,7 +20,7 @@ import icu.nullptr.hidemyapplist.hmaApp
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.service.PrefManager
 import icu.nullptr.hidemyapplist.service.ServiceClient
-import icu.nullptr.hidemyapplist.ui.activity.AboutActivity
+import org.frknkrc44.hma_oss.ui.activity.AboutActivity
 import icu.nullptr.hidemyapplist.ui.util.enabledString
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
@@ -41,7 +41,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
             setupToolbar(
                 toolbar = this,
                 title = getString(R.string.title_settings),
-                menuRes = R.menu.menu_about,
                 onMenuOptionSelected = {
                     startActivity(Intent(requireContext(), AboutActivity::class.java))
                 },

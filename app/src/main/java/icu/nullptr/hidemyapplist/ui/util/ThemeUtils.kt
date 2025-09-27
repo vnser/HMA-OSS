@@ -67,9 +67,11 @@ object ThemeUtils {
         @ColorRes colorId: Int
     ) = requireContext().getColor(colorId)
 
-    fun Fragment.homeItemBackgroundColor() = if (isNightMode(requireContext())) {
+    fun Context.homeItemBackgroundColor() = if (isNightMode(this)) {
         themeColor(com.google.android.material.R.attr.colorSurfaceContainerHighest)
     } else {
         themeColor(com.google.android.material.R.attr.colorSurfaceContainer)
     }
+
+    fun Fragment.homeItemBackgroundColor() = requireContext().homeItemBackgroundColor()
 }

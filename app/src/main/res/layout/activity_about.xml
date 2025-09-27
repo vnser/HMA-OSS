@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.AboutActivity">
+
+    <include
+        android:id="@+id/about_header"
+        layout="@layout/activity_about_header" />
+
+    <ScrollView
+        android:layout_marginTop="@dimen/item_padding_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.AboutActivity">
+
+        <LinearLayout
+            android:paddingHorizontal="@dimen/item_padding_vertical"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/about_fork_description"
+                layout="@layout/activity_about_text_section" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <include
+                android:id="@+id/about_description"
+                layout="@layout/activity_about_text_section" />
+
+            <TextView
+                android:layout_marginVertical="16dp"
+                android:text="@string/about_developer"
+                android:paddingHorizontal="@dimen/item_padding_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/list_developer"
+                android:orientation="vertical"
+                android:background="@drawable/about_content_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginVertical="16dp"
+                android:text="@string/about_translator"
+                android:paddingHorizontal="@dimen/item_padding_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/list_translator"
+                android:orientation="vertical"
+                android:background="@drawable/about_content_bg"
+                android:layout_marginBottom="@dimen/item_padding_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:id="@+id/bottom_padding"
+                android:minHeight="@dimen/item_padding_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
+

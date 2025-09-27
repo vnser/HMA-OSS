@@ -1,6 +1,7 @@
 package org.frknkrc44.hma_oss.ui.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
@@ -28,6 +29,7 @@ import icu.nullptr.hidemyapplist.ui.util.showToast
 import org.frknkrc44.hma_oss.BuildConfig
 import org.frknkrc44.hma_oss.R
 import org.frknkrc44.hma_oss.databinding.FragmentHomeBinding
+import org.frknkrc44.hma_oss.ui.activity.AboutActivity
 import java.io.IOException
 
 /**
@@ -238,7 +240,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         with(binding.howToUse) {
             text1.text = getString(R.string.about_how_to_use_title)
-            icon.setImageResource(R.drawable.outline_info_24)
+            icon.setImageResource(R.drawable.baseline_help_outline_24)
             root.setOnClickListener {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.about_how_to_use_title)
@@ -288,6 +290,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             icon.setImageResource(R.drawable.outline_settings_24)
             root.setOnClickListener {
                 navigate(R.id.nav_settings)
+            }
+        }
+
+        with(binding.navAbout) {
+            text1.text = getString(R.string.title_about)
+            icon.setImageResource(R.drawable.outline_info_24)
+            root.setOnClickListener {
+                startActivity(Intent(requireContext(), AboutActivity::class.java))
             }
         }
 

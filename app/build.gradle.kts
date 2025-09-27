@@ -1,4 +1,9 @@
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import com.google.gson.JsonParser
+import org.jose4j.json.internal.json_simple.JSONObject
+import java.io.DataInputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 plugins {
     alias(libs.plugins.agp.app)
@@ -10,8 +15,50 @@ plugins {
     alias(libs.plugins.nav.safeargs.kotlin)
 }
 
-
 val appPackageName: String by rootProject.extra
+val crowdinProjectId: String by rootProject.extra
+val crowdinApiKey: String by rootProject.extra
+val localBuild: Boolean by rootProject.extra
+val officialBuild: Boolean by rootProject.extra
+
+@Suppress("deprecation")
+afterEvaluate {
+    if (localBuild || officialBuild) {
+        val url = URL("https://crowdin.com/api/v2/projects/$crowdinProjectId/members")
+        val urlConnection = url.openConnection() as HttpURLConnection
+        urlConnection.setRequestProperty("authorization", "Bearer $crowdinApiKey")
+
+        val inputStream = DataInputStream(urlConnection.getInputStream())
+        val str = String(inputStream.readAllBytes())
+        inputStream.close()
+        urlConnection.disconnect()
+
+        val json = JsonParser.parseString(str).asJsonObject
+        val translators = json.getAsJsonArray("data")
+        val translatorsMap = mutableMapOf<String, String>()
+        for (item in translators) {
+            val translator = item.asJsonObject.getAsJsonObject("data")
+            val avatarUrl = translator.get("avatarUrl").asString
+            val username = translator.get("username").asString
+            val fullName = try {
+                translator.get("fullName")?.asString ?: ""
+            } catch (_: Throwable) {
+                ""
+            }
+
+            if (fullName.isNotEmpty()) {
+                translatorsMap["$fullName ($username)"] = avatarUrl
+            } else {
+                translatorsMap[username] = avatarUrl
+            }
+        }
+
+        logger.lifecycle("Translators: " + translatorsMap.keys.joinToString { it })
+
+        val translatorJson = JSONObject(translatorsMap).toJSONString()
+        File("${projectDir}/src/main/assets/translators.json").writeText(translatorJson)
+    }
+}
 
 android {
     namespace = appPackageName
@@ -53,8 +100,8 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.preference.ktx)
     implementation(libs.androidx.swiperefreshlayout)
-    implementation(libs.com.drakeet.about)
     implementation(libs.com.drakeet.multitype)
+    implementation(libs.com.github.bumptech.glide)
     implementation(libs.com.github.kirich1409.viewbindingpropertydelegate)
     implementation(libs.com.github.liujingxing.rxhttp)
     implementation(libs.com.github.liujingxing.rxhttp.converter.serialization)
