@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Resources
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -13,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.google.android.material.color.DynamicColors
 import icu.nullptr.hidemyapplist.hmaApp
@@ -24,7 +24,6 @@ import org.frknkrc44.hma_oss.common.BuildConfig
 import org.frknkrc44.hma_oss.databinding.ActivityAboutBinding
 import org.frknkrc44.hma_oss.databinding.ActivityAboutListItemBinding
 import org.json.JSONObject
-import androidx.core.net.toUri
 
 @Suppress("deprecation")
 class AboutActivity : AppCompatActivity() {

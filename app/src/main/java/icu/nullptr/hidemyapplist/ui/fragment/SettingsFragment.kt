@@ -20,7 +20,6 @@ import icu.nullptr.hidemyapplist.hmaApp
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.service.PrefManager
 import icu.nullptr.hidemyapplist.service.ServiceClient
-import org.frknkrc44.hma_oss.ui.activity.AboutActivity
 import icu.nullptr.hidemyapplist.ui.util.enabledString
 import icu.nullptr.hidemyapplist.ui.util.navController
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
@@ -30,6 +29,7 @@ import icu.nullptr.hidemyapplist.util.LangList
 import icu.nullptr.hidemyapplist.util.SuUtils
 import org.frknkrc44.hma_oss.R
 import org.frknkrc44.hma_oss.databinding.FragmentSettingsBinding
+import org.frknkrc44.hma_oss.ui.activity.AboutActivity
 import java.util.Locale
 
 class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
