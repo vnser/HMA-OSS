@@ -17,11 +17,11 @@ import icu.nullptr.hidemyapplist.xposed.logD
 import icu.nullptr.hidemyapplist.xposed.logE
 import icu.nullptr.hidemyapplist.xposed.logI
 
-@RequiresApi(Build.VERSION_CODES.R)
-class PmsHookTarget30(service: HMAService) : PmsHookTargetBase(service) {
+@RequiresApi(Build.VERSION_CODES.S)
+class PmsHookTarget31(service: HMAService) : PmsHookTargetBase(service) {
 
     companion object {
-        private const val TAG = "PmsHookTarget30"
+        private const val TAG = "PmsHookTarget31"
     }
 
     override val fakeSystemPackageInstallInfo: Any by lazy {
@@ -72,11 +72,11 @@ class PmsHookTarget30(service: HMAService) : PmsHookTargetBase(service) {
         findMethodOrNull("com.android.server.pm.permission.PermissionManagerService", findSuper = true) {
             name == "checkPermission"
         }?.hookBefore { param ->
-            val targetApp = param.args[1] as String
+            val targetApp = param.args[0] as String
             val callingApps = Utils4Xposed.getCallingApps(service)
             for (caller in callingApps) {
                 if (service.shouldHide(caller, targetApp)) {
-                    logD(TAG, "@checkPermission - PkgMgr: insecure query from $caller to $targetApp")
+                    logD(TAG, "@checkPermission - PermMgr: insecure query from $caller to $targetApp")
                     param.result = PackageManager.PERMISSION_DENIED
                     service.filterCount++
                     return@hookBefore
@@ -85,7 +85,7 @@ class PmsHookTarget30(service: HMAService) : PmsHookTargetBase(service) {
         }
          */
 
-        findMethodOrNull("com.android.server.pm.PackageManagerService", findSuper = true) {
+        findMethodOrNull("com.android.server.pm.PackageManagerService\$ComputerTracker") {
             name == "getPackageSetting"
         }?.hookBefore { param ->
             val targetApp = param.args[0] as String
@@ -93,7 +93,25 @@ class PmsHookTarget30(service: HMAService) : PmsHookTargetBase(service) {
             val callingApps = Utils4Xposed.getCallingApps(service, callingUid)
             for (caller in callingApps) {
                 if (service.shouldHide(caller, targetApp)) {
-                    logD(TAG, "@getPackageSetting - PkgMgr: insecure query from $caller to $targetApp")
+                    logD(TAG, "@getPackageSetting - Computer: insecure query from $caller to $targetApp")
+                    param.result = null
+                    service.filterCount++
+                    return@hookBefore
+                }
+            }
+        }?.let {
+            hooks += it
+        }
+
+        findMethodOrNull("com.android.server.pm.PackageManagerService\$ComputerTracker") {
+            name == "getPackageSettingInternal"
+        }?.hookBefore { param ->
+            val targetApp = param.args[0] as String
+            val callingUid = param.args[1] as Int
+            val callingApps = Utils4Xposed.getCallingApps(service, callingUid)
+            for (caller in callingApps) {
+                if (service.shouldHide(caller, targetApp)) {
+                    logD(TAG, "@getPackageSettingInternal - Computer: insecure query from $caller to $targetApp")
                     param.result = null
                     service.filterCount++
                     return@hookBefore
