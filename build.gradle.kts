@@ -19,7 +19,14 @@ fun String.execute(currentWorkingDir: File = file("./")): String {
 
 val localProperties = Properties()
 localProperties.load(file("local.properties").inputStream())
+val localBuild by extra(localProperties.getProperty("localBuild", "false") == "true")
 val officialBuild by extra(localProperties.getProperty("officialBuild", "false") == "true")
+
+@Suppress("unused")
+val crowdinProjectId: String by extra(localProperties.getProperty("crowdinProjectId", ""))
+
+@Suppress("unused")
+val crowdinApiKey: String by extra(localProperties.getProperty("crowdinApiKey", ""))
 
 fun getUncommittedSuffix(): String {
     if (officialBuild) return ""
