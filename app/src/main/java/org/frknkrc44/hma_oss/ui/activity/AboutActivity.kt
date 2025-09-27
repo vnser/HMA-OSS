@@ -116,7 +116,8 @@ class AboutActivity : AppCompatActivity() {
             clipToOutline = true
 
             val jsonObj = JSONObject(String(assets.open("translators.json").readBytes()))
-            for (name in jsonObj.keys()) {
+            val jsonKeys = jsonObj.keys().asSequence().sortedWith { a, b -> a.lowercase().compareTo(b.lowercase()) }
+            for (name in jsonKeys) {
                 val avatarUrl = jsonObj.getString(name)
                 addTranslatorItem(this, avatarUrl, name)
             }

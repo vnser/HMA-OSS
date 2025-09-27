@@ -41,12 +41,12 @@ afterEvaluate {
             val avatarUrl = translator.get("avatarUrl").asString
             val username = translator.get("username").asString
             val fullName = try {
-                translator.get("fullName")?.asString ?: ""
+                translator.get("fullName").asString
             } catch (_: Throwable) {
                 ""
             }
 
-            if (fullName.isNotEmpty()) {
+            if (fullName.isNotEmpty() && fullName != username) {
                 translatorsMap["$fullName ($username)"] = avatarUrl
             } else {
                 translatorsMap[username] = avatarUrl
