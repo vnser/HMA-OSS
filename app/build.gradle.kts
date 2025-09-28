@@ -53,10 +53,11 @@ afterEvaluate {
             }
         }
 
-        logger.lifecycle("Translators: " + translatorsMap.keys.joinToString { it })
-
         val translatorJson = JSONObject(translatorsMap).toJSONString()
-        File("${projectDir}/src/main/assets/translators.json").writeText(translatorJson)
+        val srcDir = android.sourceSets["main"].assets.srcDirs.first()
+        logger.lifecycle("Src dir: $srcDir")
+        if (!srcDir.exists()) srcDir.mkdirs()
+        File(srcDir, "translators.json").writeText(translatorJson)
     }
 }
 
