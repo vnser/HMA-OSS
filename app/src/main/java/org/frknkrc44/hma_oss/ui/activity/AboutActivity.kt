@@ -1,24 +1,16 @@
 package org.frknkrc44.hma_oss.ui.activity
 
-import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.widget.LinearLayout
-import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.bumptech.glide.Glide
-import com.google.android.material.color.DynamicColors
-import icu.nullptr.hidemyapplist.hmaApp
-import icu.nullptr.hidemyapplist.ui.util.ThemeUtils
 import icu.nullptr.hidemyapplist.ui.util.ThemeUtils.homeItemBackgroundColor
-import icu.nullptr.hidemyapplist.util.ConfigUtils.Companion.getLocale
 import org.frknkrc44.hma_oss.R
 import org.frknkrc44.hma_oss.common.BuildConfig
 import org.frknkrc44.hma_oss.databinding.ActivityAboutBinding
@@ -26,17 +18,13 @@ import org.frknkrc44.hma_oss.databinding.ActivityAboutListItemBinding
 import org.json.JSONObject
 
 @Suppress("deprecation")
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : BaseActivity() {
     private lateinit var binding: ActivityAboutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAboutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        DynamicColors.applyToActivityIfAvailable(this)
-
-        enableEdgeToEdge()
 
         binding.root.setOnApplyWindowInsetsListener { v, insets ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -72,7 +60,11 @@ class AboutActivity : AppCompatActivity() {
                 backgroundTintList = tint
             }
 
-            appIcon.setImageResource(R.mipmap.ic_launcher_round)
+            Glide.with(this@AboutActivity)
+                .load(R.mipmap.ic_launcher_round)
+                .circleCrop()
+                .into(appIcon)
+
             appName.setText(R.string.app_name)
             appVersion.text = BuildConfig.APP_VERSION_NAME
 
@@ -127,14 +119,10 @@ class AboutActivity : AppCompatActivity() {
         val newLayout = ActivityAboutListItemBinding.inflate(layoutInflater)
         setOnClickUrl(newLayout.root, url)
 
-        newLayout.aboutPersonIcon.setImageResource(avatarResId)
-
-        with(newLayout.aboutPersonIcon) {
-            shapeAppearanceModel = shapeAppearanceModel
-                .toBuilder()
-                .setAllCornerSizes { 48.0f }
-                .build()
-        }
+        Glide.with(this)
+            .load(avatarResId)
+            .circleCrop()
+            .into(newLayout.aboutPersonIcon)
 
         newLayout.text1.text = name
         newLayout.text2.text = desc
@@ -146,14 +134,8 @@ class AboutActivity : AppCompatActivity() {
         Glide.with(this)
             .load(avatarUrl)
             .placeholder(R.drawable.outline_info_24)
+            .circleCrop()
             .into(newLayout.aboutPersonIcon)
-
-        with(newLayout.aboutPersonIcon) {
-            shapeAppearanceModel = shapeAppearanceModel
-                .toBuilder()
-                .setAllCornerSizes { 48.0f }
-                .build()
-        }
 
         newLayout.text1.text = name
         newLayout.text2.visibility = View.GONE
@@ -166,21 +148,5 @@ class AboutActivity : AppCompatActivity() {
             intent.setData(url.toUri())
             startActivity(intent)
         }
-    }
-
-    override fun onApplyThemeResource(theme: Resources.Theme, resid: Int, first: Boolean) {
-        super.onApplyThemeResource(theme, resid, first)
-        theme.applyStyle(ThemeUtils.getNightThemeStyleRes(this), true)
-    }
-
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(getLocaleAppliedContext(newBase))
-    }
-
-    fun getLocaleAppliedContext(context: Context?): Context? {
-        val config = hmaApp.resources.configuration
-        config.setLocale(getLocale())
-
-        return context?.createConfigurationContext(config)
     }
 }

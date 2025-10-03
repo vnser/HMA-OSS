@@ -9,6 +9,7 @@ import de.robv.android.xposed.XC_MethodHook
 import icu.nullptr.hidemyapplist.common.CommonUtils
 import icu.nullptr.hidemyapplist.common.Utils
 import icu.nullptr.hidemyapplist.xposed.HMAService
+import icu.nullptr.hidemyapplist.xposed.logD
 import icu.nullptr.hidemyapplist.xposed.logE
 import icu.nullptr.hidemyapplist.xposed.logI
 
@@ -17,7 +18,10 @@ class PlatformCompatHook(private val service: HMAService) : IFrameworkHook {
 
     companion object {
         private const val TAG = "PlatformCompatHook"
-        private val sAppDataIsolationEnabled = CommonUtils.isAppDataIsolationEnabled
+    }
+
+    private val sAppDataIsolationEnabled by lazy {
+        CommonUtils.isAppDataIsolationEnabled || service.config.altAppDataIsolation
     }
 
     private var hook: XC_MethodHook.Unhook? = null
@@ -33,13 +37,18 @@ class PlatformCompatHook(private val service: HMAService) : IFrameworkHook {
                 val changeId = param.args[0] as Long
                 val appInfo = param.args[1] as ApplicationInfo
                 if (changeId.toInt() != 143937733) return@hookBefore
+                if (appInfo.packageName in service.systemApps) return@hookBefore
                 val apps = Utils.binderLocalScope {
                     service.pms.getPackagesForUid(appInfo.uid)
                 } ?: return@hookBefore
                 for (app in apps) {
                     if (service.isHookEnabled(app)) {
-                        if (sAppDataIsolationEnabled) param.result = true
-                        logI(TAG, "force mount data: ${appInfo.uid} $app")
+                        if (sAppDataIsolationEnabled) {
+                            param.result = true
+                            service.filterCount++
+                            logD(TAG, "force mount data: ${appInfo.uid} $app")
+                        }
+
                         return@hookBefore
                     }
                 }

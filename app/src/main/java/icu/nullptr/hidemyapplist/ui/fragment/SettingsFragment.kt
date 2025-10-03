@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.View
 import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -14,8 +15,10 @@ import androidx.preference.PreferenceDataStore
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import icu.nullptr.hidemyapplist.common.CommonUtils
+import icu.nullptr.hidemyapplist.common.Constants
 import icu.nullptr.hidemyapplist.hmaApp
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.service.PrefManager
@@ -236,6 +239,32 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
                 }
             }
 
+            findPreference<Preference>("translation")?.let {
+                it.summary = getString(R.string.settings_translate_summary, getString(R.string.app_name))
+                it.setOnPreferenceClickListener {
+                    startActivity(Intent(Intent.ACTION_VIEW, Constants.TRANSLATE_URL.toUri()))
+                    true
+                }
+            }
+
+            findPreference<SwitchPreferenceCompat>("followSystemAccent")?.also {
+                it.isVisible = DynamicColors.isDynamicColorAvailable()
+
+                it.setOnPreferenceChangeListener { _, _ ->
+                    activity?.recreate()
+                    true
+                }
+            }
+
+            findPreference<ListPreference>("themeColor")?.also {
+                if (!DynamicColors.isDynamicColorAvailable()) it.dependency = null
+
+                it.setOnPreferenceChangeListener { _, _ ->
+                    activity?.recreate()
+                    true
+                }
+            }
+
             findPreference<ListPreference>("darkTheme")?.setOnPreferenceChangeListener { _, newValue ->
                 val newMode = (newValue as String).toInt()
                 if (PrefManager.darkTheme != newMode) {
@@ -251,11 +280,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
             }
 
             configureDataIsolation()
-
-            findPreference<SwitchPreferenceCompat>("bypassRiskyPackageWarning")?.setOnPreferenceChangeListener { _, newValue ->
-                activity?.recreate()
-                true
-            }
 
             findPreference<Preference>("stopSystemService")?.setOnPreferenceClickListener {
                 if (ServiceClient.serviceVersion != 0) {

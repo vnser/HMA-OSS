@@ -10,6 +10,7 @@ public class Constants {
     public static final String GMS_PACKAGE_NAME = "com.google.android.gms";
     public static final String GSF_PACKAGE_NAME = "com.google.android.gsf";
     public static final String VENDING_PACKAGE_NAME = "com.android.vending";
+    public static final String TRANSLATE_URL = "https://crowdin.com/project/frknkrc44-hma-oss";
 
     public static final String ANDROID_APP_DATA_ISOLATION_ENABLED_PROPERTY = "persist.zygote.app_data_isolation";
     public static final String ANDROID_VOLD_APP_DATA_ISOLATION_ENABLED_PROPERTY = "persist.sys.vold_app_data_isolation_enabled";

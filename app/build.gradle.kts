@@ -13,6 +13,42 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.nav.safeargs.kotlin)
+    alias(libs.plugins.naterialthemebuilder)
+}
+
+materialThemeBuilder {
+    themes {
+        for ((name, color) in listOf(
+            "Red" to "F44336",
+            "Pink" to "E91E63",
+            "Purple" to "9C27B0",
+            "DeepPurple" to "673AB7",
+            "Indigo" to "3F51B5",
+            "Blue" to "2196F3",
+            "LightBlue" to "03A9F4",
+            "Cyan" to "00BCD4",
+            "Teal" to "009688",
+            "Green" to "4FAF50",
+            "LightGreen" to "8BC3A4",
+            "Lime" to "CDDC39",
+            "Yellow" to "FFEB3B",
+            "Amber" to "FFC107",
+            "Orange" to "FF9800",
+            "DeepOrange" to "FF5722",
+            "Brown" to "795548",
+            "BlueGrey" to "607D8F",
+            "Sakura" to "FF9CA8"
+        )) {
+            create("Material$name") {
+                lightThemeFormat = "ThemeOverlay.Light.%s"
+                darkThemeFormat = "ThemeOverlay.Dark.%s"
+                primaryColor = "#$color"
+            }
+        }
+    }
+    // Add Material Design 3 color tokens (such as palettePrimary100) in generated theme
+    // rikka.material >= 2.0.0 provides such attributes
+    generatePalette = false
 }
 
 val appPackageName: String by rootProject.extra
@@ -55,9 +91,14 @@ afterEvaluate {
 
         val translatorJson = JSONObject(translatorsMap).toJSONString()
         val srcDir = android.sourceSets["main"].assets.srcDirs.first()
-        logger.lifecycle("Src dir: $srcDir")
+        logger.lifecycle("Asset dir: $srcDir")
         if (!srcDir.exists()) srcDir.mkdirs()
         File(srcDir, "translators.json").writeText(translatorJson)
+    } else {
+        val srcDir = android.sourceSets["main"].assets.srcDirs.first()
+        logger.lifecycle("Asset dir: $srcDir")
+        if (!srcDir.exists()) srcDir.mkdirs()
+        File(srcDir, "translators.json").writeText("{}")
     }
 }
 

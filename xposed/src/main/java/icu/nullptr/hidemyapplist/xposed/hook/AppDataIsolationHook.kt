@@ -29,6 +29,7 @@ class AppDataIsolationHook(private val service: HMAService): IFrameworkHook {
     private var voldHookSkipped = false
 
     override fun load() {
+        if (!(service.config.altAppDataIsolation || service.config.altVoldAppDataIsolation)) return
         logI(TAG, "Load hook")
 
         findMethodOrNull(

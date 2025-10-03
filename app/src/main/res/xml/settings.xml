@@ -8,15 +8,28 @@
             android:key="language"
             android:summary="%s"
             android:title="@string/settings_language" />
-        <!--
         <Preference
             android:icon="@drawable/outline_translate_24"
             android:key="translation"
             android:title="@string/settings_translate" />
-        -->
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_theme">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:disableDependentsState="true"
+            android:icon="@drawable/outline_palette_24"
+            android:key="followSystemAccent"
+            android:title="@string/settings_system_theme_color" />
+        <ListPreference
+            android:defaultValue="MATERIAL_BLUE"
+            android:dependency="followSystemAccent"
+            android:entries="@array/color_texts"
+            android:entryValues="@array/color_values"
+            android:icon="@drawable/outline_format_color_fill_24"
+            android:key="themeColor"
+            android:summary="%s"
+            android:title="@string/settings_theme_color" />
         <ListPreference
             android:defaultValue="-1"
             android:entries="@array/theme_texts"
