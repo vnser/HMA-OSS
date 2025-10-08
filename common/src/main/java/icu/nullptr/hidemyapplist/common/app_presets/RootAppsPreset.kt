@@ -33,6 +33,11 @@ class RootAppsPreset() : BasePreset("root_apps") {
         "com.byyoung.setting",
         "web1n.stopapp",
         "org.adaway",
+        "com.mrsep.ttlchanger",
+        "mattecarra.accapp",
+        "io.github.saeeddev94.pixelnr",
+        "com.js.nowakelock",
+        "com.aistra.hail",
 
         // Scene's "Core Edition" cannot be detected in the Xposed preset
         "com.omarea.vtools",

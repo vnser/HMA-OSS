@@ -9,6 +9,7 @@ class SuspiciousAppsPreset : BasePreset("sus_apps") {
         "com.speedsoftware.rootexplorer",
         "me.zhanghai.android.files",
         "com.lonelycatgames.Xplore",
+        "org.fossify.filemanager",
     )
 
     val libNames = arrayOf(

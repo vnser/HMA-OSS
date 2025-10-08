@@ -175,14 +175,8 @@ abstract class AppSelectFragment : Fragment(R.layout.fragment_app_select) {
             }
         }
 
-        val atLeastEntryCount: Int get() {
-            if (!search.isBlank()) return 0
-
-            return if (fragmentType < 2) 1 else 2
-        }
-
         private fun checkIfEmpty() {
-            val emptyViewVisible = recyclerView.adapter!!.itemCount < atLeastEntryCount
+            val emptyViewVisible = recyclerView.adapter!!.itemCount < 1
             emptyView.visibility = if (emptyViewVisible) View.VISIBLE else View.GONE
             if (emptyViewVisible) {
                 emptyView.findViewById<TextView>(R.id.list_empty_text).text = getString(
