@@ -17,6 +17,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.ui.util.navController
+import icu.nullptr.hidemyapplist.ui.util.navigate
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
 import icu.nullptr.hidemyapplist.ui.viewmodel.TemplateSettingsViewModel
 import kotlinx.coroutines.launch
@@ -81,7 +82,7 @@ class TemplateSettingsFragment : Fragment(R.layout.fragment_template_settings) {
                 filterOnlyEnabled = false,
                 checked = viewModel.targetAppList.value.toTypedArray()
             )
-            navController.navigate(R.id.nav_scope, args.toBundle())
+            navigate(R.id.nav_scope, args.toBundle())
         }
         binding.appliedApps.setOnClickListener {
             setFragmentResultListener("app_select") { _, bundle ->
@@ -93,7 +94,7 @@ class TemplateSettingsFragment : Fragment(R.layout.fragment_template_settings) {
                 isWhiteList = viewModel.isWhiteList,
                 checked = viewModel.appliedAppList.value.toTypedArray()
             )
-            navController.navigate(R.id.nav_scope, args.toBundle())
+            navigate(R.id.nav_scope, args.toBundle())
         }
 
         lifecycleScope.launch {

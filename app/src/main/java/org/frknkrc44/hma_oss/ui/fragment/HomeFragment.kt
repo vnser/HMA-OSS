@@ -164,17 +164,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             for (i in 0..< childCount) {
                 getChildAt(i).apply {
                     (this as ViewGroup).apply {
-                        findViewById<TextView>(android.R.id.text1).setTextColor(
-                            themeColor(
-                                com.google.android.material.R.attr.colorOnSurface,
-                            ),
+                        val textColor = themeColor(
+                            com.google.android.material.R.attr.colorOnSurface,
                         )
 
-                        findViewById<ImageView>(android.R.id.icon).setColorFilter(
-                            themeColor(
-                                com.google.android.material.R.attr.colorOnSurface,
-                            ),
-                        )
+                        findViewById<TextView>(android.R.id.text1).setTextColor(textColor)
+                        findViewById<ImageView>(android.R.id.icon).setColorFilter(textColor)
                     }
 
                     (layoutParams as LinearLayout.LayoutParams).apply {

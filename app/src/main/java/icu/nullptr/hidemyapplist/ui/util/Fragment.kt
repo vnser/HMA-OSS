@@ -12,19 +12,27 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import androidx.navigation.fragment.NavHostFragment
+import org.frknkrc44.hma_oss.R
 
 val Fragment.navController get() = NavHostFragment.findNavController(this)
 
-fun Fragment.navigate(@IdRes resId: Int, args: Bundle? = null) {
-    val navOptions = NavOptions.Builder().apply {
-        setEnterAnim(androidx.navigation.ui.R.anim.nav_default_enter_anim)
-        setExitAnim(androidx.navigation.ui.R.anim.nav_default_exit_anim)
-        setPopEnterAnim(androidx.navigation.ui.R.anim.nav_default_pop_enter_anim)
-        setPopExitAnim(androidx.navigation.ui.R.anim.nav_default_pop_exit_anim)
+private val navOptions by lazy {
+    NavOptions.Builder().apply {
+        setEnterAnim(R.anim.activity_open_enter)
+        setExitAnim(R.anim.fade_out)
+        setPopEnterAnim(R.anim.fade_in)
+        setPopExitAnim(R.anim.activity_close_exit)
     }.build()
+}
 
+fun Fragment.navigate(@IdRes resId: Int, args: Bundle? = null) {
     navController.navigate(resId, args, navOptions)
+}
+
+fun Fragment.navigate(@IdRes resId: Int, args: Bundle? = null, navExtras: Navigator.Extras?) {
+    navController.navigate(resId, args, navOptions, navExtras)
 }
 
 fun Fragment.setupToolbar(

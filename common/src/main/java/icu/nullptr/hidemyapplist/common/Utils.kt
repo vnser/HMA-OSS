@@ -55,24 +55,18 @@ object Utils {
     fun startsWithMultiple(source: String, vararg targets: String): Boolean {
         assert(source.isNotEmpty() && targets.isNotEmpty())
 
-        for (target in targets) {
-            if (source.startsWith(target)) {
-                return true
-            }
-        }
-
-        return false
+        return targets.any { source.startsWith(it) }
     }
 
     fun endsWithMultiple(source: String, vararg targets: String): Boolean {
         assert(source.isNotEmpty() && targets.isNotEmpty())
 
-        for (target in targets) {
-            if (source.endsWith(target)) {
-                return true
-            }
-        }
+        return targets.any { source.endsWith(it) }
+    }
 
-        return false
+    fun containsMultiple(source: String, vararg targets: String): Boolean {
+        assert(source.isNotEmpty() && targets.isNotEmpty())
+
+        return targets.any { source.contains(it) }
     }
 }

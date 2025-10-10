@@ -25,6 +25,7 @@ import icu.nullptr.hidemyapplist.common.SettingsPresets
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.ui.util.enabledString
 import icu.nullptr.hidemyapplist.ui.util.navController
+import icu.nullptr.hidemyapplist.ui.util.navigate
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
 import icu.nullptr.hidemyapplist.ui.viewmodel.AppSettingsViewModel
 import icu.nullptr.hidemyapplist.util.PackageHelper
@@ -293,7 +294,7 @@ class AppSettingsFragment : Fragment(R.layout.fragment_settings) {
                     filterOnlyEnabled = false,
                     checked = pack.config.extraAppList.toTypedArray()
                 )
-                parent.navController.navigate(R.id.nav_scope, args.toBundle())
+                navigate(R.id.nav_scope, args.toBundle())
                 true
             }
             updateApplyTemplates()

@@ -38,6 +38,9 @@ class RootAppsPreset() : BasePreset("root_apps") {
         "io.github.saeeddev94.pixelnr",
         "com.js.nowakelock",
         "com.aistra.hail",
+        "me.twrp.twrpapp",
+        "com.slash.batterychargelimit",
+        "com.valhalla.thor",
 
         // Scene's "Core Edition" cannot be detected in the Xposed preset
         "com.omarea.vtools",

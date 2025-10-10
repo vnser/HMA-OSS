@@ -15,6 +15,7 @@ import icu.nullptr.hidemyapplist.common.JsonConfig
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.ui.adapter.TemplateAdapter
 import icu.nullptr.hidemyapplist.ui.util.navController
+import icu.nullptr.hidemyapplist.ui.util.navigate
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
 import org.frknkrc44.hma_oss.R
 import org.frknkrc44.hma_oss.databinding.FragmentTemplateManageBinding
@@ -94,6 +95,6 @@ class TemplateManageFragment : Fragment(R.layout.fragment_template_manage) {
 
         val args = TemplateSettingsFragmentArgs(info.name, info.isWhiteList)
         val extras = FragmentNavigatorExtras(binding.hintCard to "transition_manage")
-        navController.navigate(R.id.nav_template_settings, args.toBundle(), null, extras)
+        navigate(R.id.nav_template_settings, args.toBundle(), extras)
     }
 }

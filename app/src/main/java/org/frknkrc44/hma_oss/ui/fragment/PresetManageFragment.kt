@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import icu.nullptr.hidemyapplist.service.ConfigManager
 import icu.nullptr.hidemyapplist.ui.util.navController
+import icu.nullptr.hidemyapplist.ui.util.navigate
 import icu.nullptr.hidemyapplist.ui.util.setupToolbar
 import org.frknkrc44.hma_oss.R
 import org.frknkrc44.hma_oss.databinding.FragmentPresetManageBinding
@@ -60,6 +61,6 @@ class PresetManageFragment : Fragment(R.layout.fragment_preset_manage) {
 
     private fun navigateToPreset(presetInfo: ConfigManager.PresetInfo) {
         val args = AppPresetFragmentArgs(presetInfo.name, presetInfo.translation)
-        navController.navigate(R.id.nav_preset_inner_manage, args.toBundle())
+        navigate(R.id.nav_preset_inner_manage, args.toBundle())
     }
 }
