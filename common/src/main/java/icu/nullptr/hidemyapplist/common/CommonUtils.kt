@@ -6,8 +6,8 @@ import icu.nullptr.hidemyapplist.common.Constants.GSF_PACKAGE_NAME
 import icu.nullptr.hidemyapplist.common.Constants.VENDING_PACKAGE_NAME
 
 object CommonUtils {
-    val gmsPackages = arrayOf(GMS_PACKAGE_NAME, GSF_PACKAGE_NAME, VENDING_PACKAGE_NAME)
-    val riskyPackages = arrayOf<String>() + gmsPackages
+    val gmsPackages = arrayOf(GMS_PACKAGE_NAME, GSF_PACKAGE_NAME)
+    val riskyPackages = arrayOf(VENDING_PACKAGE_NAME) + gmsPackages
 
     val isAppDataIsolationEnabled: Boolean
         get() = SystemProperties.getBoolean(Constants.ANDROID_APP_DATA_ISOLATION_ENABLED_PROPERTY, true)

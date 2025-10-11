@@ -8,6 +8,7 @@ import icu.nullptr.hidemyapplist.common.Utils.getInstalledApplicationsCompat
 import icu.nullptr.hidemyapplist.common.Utils.getPackageInfoCompat
 import icu.nullptr.hidemyapplist.common.app_presets.BasePreset
 import icu.nullptr.hidemyapplist.common.app_presets.CustomROMPreset
+import icu.nullptr.hidemyapplist.common.app_presets.DetectorAppsPreset
 import icu.nullptr.hidemyapplist.common.app_presets.RootAppsPreset
 import icu.nullptr.hidemyapplist.common.app_presets.SuspiciousAppsPreset
 import icu.nullptr.hidemyapplist.common.app_presets.XposedModulesPreset
@@ -100,6 +101,7 @@ class AppPresets private constructor() {
         presetList.add(RootAppsPreset())
         presetList.add(XposedModulesPreset())
         presetList.add(SuspiciousAppsPreset())
+        presetList.add(DetectorAppsPreset())
     }
 }
 

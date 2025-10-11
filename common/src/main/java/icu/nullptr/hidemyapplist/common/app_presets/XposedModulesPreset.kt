@@ -3,7 +3,7 @@ package icu.nullptr.hidemyapplist.common.app_presets
 import android.content.pm.ApplicationInfo
 import java.util.zip.ZipFile
 
-class XposedModulesPreset() : BasePreset("xposed") {
+class XposedModulesPreset : BasePreset("xposed") {
     override val exactPackageNames = setOf<String>()
 
     override fun canBeAddedIntoPreset(appInfo: ApplicationInfo): Boolean {
