@@ -32,7 +32,6 @@ import icu.nullptr.hidemyapplist.util.LangList
 import icu.nullptr.hidemyapplist.util.SuUtils
 import org.frknkrc44.hma_oss.R
 import org.frknkrc44.hma_oss.databinding.FragmentSettingsBinding
-import org.frknkrc44.hma_oss.ui.activity.AboutActivity
 import java.util.Locale
 
 class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
@@ -44,9 +43,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), PreferenceFragmen
             setupToolbar(
                 toolbar = this,
                 title = getString(R.string.title_settings),
-                onMenuOptionSelected = {
-                    startActivity(Intent(requireContext(), AboutActivity::class.java))
-                },
                 navigationIcon = R.drawable.baseline_arrow_back_24,
                 navigationOnClick = { navController.navigateUp() }
             )
