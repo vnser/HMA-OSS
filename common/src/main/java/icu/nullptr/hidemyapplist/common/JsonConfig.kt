@@ -1,7 +1,6 @@
 package icu.nullptr.hidemyapplist.common
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.frknkrc44.hma_oss.common.BuildConfig
 
