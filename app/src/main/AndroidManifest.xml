@@ -12,11 +12,11 @@
         android:name="icu.nullptr.hidemyapplist.MyApp"
         android:allowBackup="true"
         android:fullBackupOnly="true"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-
-        <activity android:name="org.frknkrc44.hma_oss.ui.activity.AboutActivity" />
+        android:theme="@style/AppTheme"
+        tools:targetApi="33">
 
         <activity
             android:name="org.frknkrc44.hma_oss.ui.activity.MainActivity"

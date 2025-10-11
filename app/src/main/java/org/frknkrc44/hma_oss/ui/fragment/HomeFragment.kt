@@ -1,7 +1,6 @@
 package org.frknkrc44.hma_oss.ui.fragment
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
@@ -29,7 +28,6 @@ import icu.nullptr.hidemyapplist.ui.util.showToast
 import org.frknkrc44.hma_oss.BuildConfig
 import org.frknkrc44.hma_oss.R
 import org.frknkrc44.hma_oss.databinding.FragmentHomeBinding
-import org.frknkrc44.hma_oss.ui.activity.AboutActivity
 import java.io.IOException
 
 /**
@@ -292,7 +290,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             text1.text = getString(R.string.title_about)
             icon.setImageResource(R.drawable.outline_info_24)
             root.setOnClickListener {
-                startActivity(Intent(requireContext(), AboutActivity::class.java))
+                navigate(R.id.nav_about)
             }
         }
 
