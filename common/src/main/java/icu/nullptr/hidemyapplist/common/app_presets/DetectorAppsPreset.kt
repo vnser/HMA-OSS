@@ -28,6 +28,7 @@ class DetectorAppsPreset  : BasePreset("detector_apps") {
         "id.my.pjm.qbcd_okr_dvii",
         "wu.Zygisk.Detector",
         "com.atominvention.rootchecker",
+        "com.joeykrim.rootcheck",
 
         // Play Integrity checkers
         "krypton.tbsafetychecker",

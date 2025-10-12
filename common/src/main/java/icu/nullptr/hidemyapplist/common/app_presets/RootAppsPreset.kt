@@ -37,7 +37,6 @@ class RootAppsPreset : BasePreset("root_apps") {
         "mattecarra.accapp",
         "io.github.saeeddev94.pixelnr",
         "com.js.nowakelock",
-        "com.aistra.hail",
         "me.twrp.twrpapp",
         "com.slash.batterychargelimit",
         "com.valhalla.thor",

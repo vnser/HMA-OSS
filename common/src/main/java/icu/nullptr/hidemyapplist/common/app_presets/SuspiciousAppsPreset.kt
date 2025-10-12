@@ -6,14 +6,27 @@ import java.util.zip.ZipFile
 class SuspiciousAppsPreset : BasePreset("sus_apps") {
     override val exactPackageNames = setOf(
         "com.reveny.vbmetafix.service",
-        "com.microsoft.rdc.androidx",
         "berserker.android.apps.sshdroid",
+        "com.iamaner.oneclickfreeze",
+        "com.shamanland.privatescreenshots",
+        "com.aistra.hail",
+
+        // Remote desktop apps
+        "com.devolutions.remotedesktopmanager",
+        "com.anydesk.anydeskandroid",
+        "com.carriez.flutter_hbb",
+
+        // Suspicious app markets
+        "com.happymod.apk",
+        "com.pd.pdhelper",
+        "cm.aptoide.pt",
 
         // File managers
         "com.speedsoftware.rootexplorer",
         "me.zhanghai.android.files",
         "com.lonelycatgames.Xplore",
         "org.fossify.filemanager",
+        "com.amaze.filemanager",
     )
 
     val libNames = arrayOf(
@@ -69,6 +82,21 @@ class SuspiciousAppsPreset : BasePreset("sus_apps") {
 
         // MT Manager
         if (packageName.startsWith("bin.mt.plus")) {
+            return true
+        }
+
+        // All StrAI apps
+        if (packageName.startsWith("com.x0.strai.")) {
+            return true
+        }
+
+        // All Microsoft remote control apps
+        if (packageName.startsWith("com.microsoft.rdc.")) {
+            return true
+        }
+
+        // All TeamViewer apps
+        if (packageName.startsWith("com.teamviewer.")) {
             return true
         }
 

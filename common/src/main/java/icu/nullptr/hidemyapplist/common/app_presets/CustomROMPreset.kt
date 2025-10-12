@@ -5,7 +5,8 @@ import icu.nullptr.hidemyapplist.common.Utils
 
 class CustomROMPreset : BasePreset("custom_rom") {
     override val exactPackageNames = setOf(
-        "io.chaldeaprjkt.gamespace"
+        "io.chaldeaprjkt.gamespace",
+        "powersaver.pro",
     )
 
     override fun canBeAddedIntoPreset(appInfo: ApplicationInfo): Boolean {
@@ -47,8 +48,33 @@ class CustomROMPreset : BasePreset("custom_rom") {
         }
 
         // EvoX (just added by the community request)
-        if (Utils.startsWithMultiple("org.evolution.", "org.evolutionx.") ||
-            Utils.endsWithMultiple(".evolution", ".evolutionx")) {
+        if (Utils.startsWithMultiple(packageName, "org.evolution.", "org.evolutionx.") ||
+            Utils.endsWithMultiple(packageName, ".evolution", ".evolutionx")) {
+            return true
+        }
+
+        // Several AOSP ROMs
+        if (Utils.startsWithMultiple(
+                packageName,
+                "com.android.system.switch.",
+                "com.accents.",
+                "com.alpha.",
+                "com.android.systemui.",
+                "com.android.theme.",
+                "com.bootleggers.",
+                "com.custom.overlay.",
+                "com.gnonymous.gvisualmod.",
+                "com.libremobileos.",
+                "com.nikgapps.",
+                "com.potato.",
+        )) {
+            return true
+        }
+
+        if (Utils.endsWithMultiple(
+                packageName,
+                ".overlay.fog",
+        )) {
             return true
         }
 
