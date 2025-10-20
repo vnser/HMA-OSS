@@ -1,5 +1,5 @@
-project_id_env: hmaoss-vring
-api_token_env: f4de702a1e328244c573a6355e89c95611a648df6c02474327a687779203a526fc1621c8b6dff25e
+project_id_env: CROWDIN_PROJECT_ID
+api_token_env: CROWDIN_API_TOKEN
 preserve_hierarchy: 1
 files:
   - source: /app/src/main/res/values/strings.xml
